@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/*"
+  to = "/mainActivity.html"
+  status = 200
