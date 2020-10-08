@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # The Melting Pot Project
 
 A Cooking Simulator For UNC Charlotte Capstone Project using Phaser 3 Framework.
@@ -58,3 +59,7 @@ After you run the `npm run build` command, your code will be built into a single
 
 If you put the contents of the `dist` folder in a publicly-accessible location (say something like `http://mycoolserver.com`), 
 you should be able to open `http://mycoolserver.com/index.html` and play your game.
+=======
+# The_Melting_Pot
+ Cooking Simulator For UNCC Capstone Project
+>>>>>>> Initial commit
