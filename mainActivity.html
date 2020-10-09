@@ -17,7 +17,7 @@
     var config = {
         type: Phaser.AUTO,
         width: 800,
-        height: 600,
+        height: 572,
         scene: {
             preload: preload,
             create: create,
@@ -29,10 +29,17 @@
 
     function preload ()
     {
+        this.load.image("kitchenTop", "assets/kitchenTop.png");
+        this.load.image("pan", "assets/pan.png");
+        this.load.image("clover", "assets/clover.png")
+
     }
 
     function create ()
     {
+        this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
+        this.add.image(600, 300, "pan").setOrigin(0, 0);
+        this.add.image(650, 320, "clover").setOrigin(0, 0);
     }
 
     function update ()
