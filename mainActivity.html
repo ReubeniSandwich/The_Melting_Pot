@@ -37,10 +37,26 @@
 
     function create ()
     {
-        this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
-        this.add.image(600, 300, "pan").setOrigin(0, 0);
-        this.add.image(650, 320, "clover").setOrigin(0, 0);
-    }
+        var kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
+        var pan = this.add.image(600, 300, "pan").setInteractive().setOrigin(0, 0);
+        var clover = this.add.image(650, 320, "clover").setInteractive().setOrigin(0, 0);
+        this.input.setDraggable(clover);
+        this.input.setDraggable(pan);
+
+
+        this.input.on('dragstart', function (pointer, gameObject) {
+            gameObject.setTint(0xff0000);
+        });
+
+        this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+            gameObject.x = dragX;
+            gameObject.y = dragY;
+        });
+
+        this.input.on('dragend', function (pointer, gameObject) {
+            gameObject.clearTint();
+        });
+}
 
     function update ()
     {
