@@ -17,7 +17,7 @@
     var config = {
         type: Phaser.AUTO,
         width: 800,
-        height: 572,
+        height: 600,
         scene: {
             preload: preload,
             create: create,
@@ -29,30 +29,48 @@
 
     function preload ()
     {
+        this.load.image("kitchenTop", "assets/MeltingPotStove_1.png");
         this.load.image("kitchenTop", "assets/kitchenTop.png");
+        this.load.image("butterIngredient", "assets/MeltingPotButter.png");
+        this.load.image("saltShaker", "assets/MeltingPotSalt.png");
+        this.load.image("pepperShaker", "assets/MeltingPotPepper.png");
+        this.load.image("pastaIngredient", "assets/MeltingPotNoodles.png");
+        this.load.image("pastaCooked", "assets/MeltingPotNoodlesCooked.png");
         this.load.image("pan", "assets/pan.png");
         this.load.image("clover", "assets/clover.png")
+        // this.load.image("", "assets/");
 
     }
 
     function create ()
     {
-        var kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
+
+        var kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);    
         var pan = this.add.image(600, 300, "pan").setInteractive().setOrigin(0, 0);
         var clover = this.add.image(650, 320, "clover").setInteractive().setOrigin(0, 0);
        
 // Handles Simple Dragging of Objects
 
+        pan.inputEnabled = true;
         this.input.setDraggable(clover);
         this.input.setDraggable(pan);
+        
 
+
+// Object Draggin Logic
         this.input.on('dragstart', function (pointer, gameObject) {
             gameObject.setTint(0xff0000);
         });
 
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+            // Snappy movement
+            // gameObject.x = Phaser.Math.Snap.To(dragX, 50);
+            // gameObject.y = Phaser.Math.Snap.To(dragY, 100);
+            
+            // Smooth movement
             gameObject.x = dragX;
             gameObject.y = dragY;
+            
         });
 
         this.input.on('dragend', function (pointer, gameObject) {
