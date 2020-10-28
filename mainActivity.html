@@ -41,6 +41,7 @@
         this.load.image("pepperShaker", "assets/MeltingPotPepper.png");
         this.load.image("pastaIngredient", "assets/MeltingPotNoodles.png");
         this.load.image("pastaCooked", "assets/MeltingPotNoodlesCooked.png");
+        this.load.image("emptyPot", "assets/emptyPot.png");
         this.load.image("pan", "assets/pan.png");
         this.load.image("clover", "assets/clover.png")
     
@@ -59,10 +60,11 @@
         let self = this;
         var kitchenTop = this.add.image(0, 0, "kitchenTop").setScale(0.47, 0.4).setOrigin(0, 0);    
         var pan = this.add.image(900, 225, "pan").setInteractive({draggable: true});
-        var pepper = this.add.image(0, 0, "pepperShaker").setInteractive().setOrigin(0, 0);
-        var salt = this.add.image(50, 0, "saltShaker").setInteractive().setOrigin(0, 0);
-        var pasta = this.add.image(50, 200, "pastaIngredient").setInteractive().setOrigin(0,0);
-        var butter = this.add.image(0, 300, "butterIngredient").setInteractive().setOrigin(0,0);
+        var pepper = this.add.image(0, 0, "pepperShaker").setScale(.5,.5).setInteractive({draggable: true}).setOrigin(0, 0);
+        var salt = this.add.image(50, 0, "saltShaker").setScale(.5,.5).setInteractive({draggable: true}).setOrigin(0, 0);
+        var pasta = this.add.image(50, 200, "pastaIngredient").setScale(.6,.7).setInteractive({draggable: true}).setOrigin(0,0);
+        var butter = this.add.image(0, 300, "butterIngredient").setScale(.5,.6).setInteractive({draggable: true}).setOrigin(0,0);
+        var emptyPot = this.add.image(650, 150, "emptyPot").setScale(.8,.8).setInteractive({draggable: true}).setOrigin(0,0);
 
         let cookZoneTopLeft = this.add.zone(500, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
         let cookZoneTopRight = this.add.zone(700, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
@@ -131,11 +133,11 @@
     this.input.on('dragend', function (pointer, gameObject, dropped) {
 
         // Moves the object back if it was not put into drop zone
-        if (!dropped)
-        {
-            gameObject.x = gameObject.input.dragStartX;
-            gameObject.y = gameObject.input.dragStartY;
-        }
+        //if (!dropped)
+        //{
+          //  gameObject.x = gameObject.input.dragStartX;
+            //gameObject.y = gameObject.input.dragStartY;
+        //}
 
         graphics.clear();
         graphics.lineStyle(6, 0xffff00);
