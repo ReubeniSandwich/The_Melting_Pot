@@ -49,13 +49,16 @@
 
     }
 
+    var timer;
+    var total = 0;
+
     function create ()
     {
-        this.initialTime = 150;
 
-        text = this.add.text(32, 32, 'Timer: ' + formatTime(this.initialTime));
+        //create timer
+        //timer = game.time.create(false);
 
-        timedEvent = this.time.addEvent({delay: 1000, callback: onEvent, callbackScope: this, loop: true});
+        //timer.start().on('drop', );
 
         let self = this;
         var kitchenTop = this.add.image(0, 0, "kitchenTop").setScale(0.47, 0.4).setOrigin(0, 0);    
@@ -79,7 +82,47 @@
         graphics.lineStyle(6, 0xffff00);
         graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
         
-       
+       var me = this;
+
+       me.startTimer = new Date();
+       me.totalTime = 120;
+       me.timeElapsed = 0;
+
+       me.createTimer();
+
+       me.gameTimer = game.time.events.loop(100, function(){
+        me.updateTimer();
+       });
+
+       function createTimer(){
+           var me = this;
+
+            me.timeLabel = me.game.add.text(me.game.world.centerX, 100, "00:00", {font: "100px Arial", fill: "#fff"});
+            me.timeLabel.anchor.setTo(0.5, 0);
+            me.timeLabel.align = 'center';
+       }
+
+       function updateTimer(){
+           var me = this;
+           var currentTime = new Date();
+           var timeDifference = me.startTime.getTime() - currentTime.getTime();
+
+           me.timeElapsed = Math.abs(timeDifference / 1000);
+
+           var timeRemaining = me.totalTime - me.timeElapsed; 
+
+            //Convert seconds into minutes and seconds
+            var minutes = Math.floor(timeRemaining / 60);
+            var seconds = Math.floor(timeRemaining) - (60 * minutes);
+
+            //Display minutes, add a 0 to the start if less than 10
+            var result = (minutes < 10) ? "0" + minutes : minutes; 
+
+            //Display seconds, add a 0 to the start if less than 10
+            result += (seconds < 10) ? ":0" + seconds : ":" + seconds; 
+
+            me.timeLabel.text = result;
+       }
         // Handles Simple Dragging of Objects
 
         // this.input.setDraggable(clover);
@@ -127,10 +170,10 @@
             gameObject.y = dropZone.y;
             
             //makes the object 'stuck'
-            // gameObject.input.enabled = false;
-});
+            //gameObject.input.enabled = false;
+        });
 
-    this.input.on('dragend', function (pointer, gameObject, dropped) {
+        this.input.on('dragend', function (pointer, gameObject, dropped) {
 
         // Moves the object back if it was not put into drop zone
         //if (!dropped)
