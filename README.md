@@ -1,6 +1,7 @@
 # The Melting Pot Project
 
 A Cooking Simulator For UNC Charlotte Capstone Project using Phaser 3 Framework.
+A framework is used for easy development.
 
 # Phaser 3 Webpack Project Template
 
