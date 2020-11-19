@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import kitchenTopImage from "../assets/MeltingPotStove_1.png";
 import saltShakerImage from "../assets/MeltingPotSalt.png";
+import butterIngredient from "../assets/MeltingPotButter.png";
 
 export default class KitchenScene extends Phaser.Scene {
 
@@ -21,7 +22,7 @@ preload () {
   this.load.image("buttonDone", "assets/Done_Button.png");
   this.load.image("buttonExit", "assets/Exit_Button.png");
 
-  this.load.image("butterIngredient", "assets/MeltingPotButter.png");
+  this.load.image("butterIngredient", butterIngredient);
   this.load.image("saltShaker", saltShakerImage);
   this.load.image("pepperShaker", "assets/MeltingPotPepper.png");
   this.load.image("pastaIngredient", "assets/MeltingPotNoodles.png");
@@ -112,13 +113,17 @@ create () {
       graphics.clear();
       graphics.lineStyle(6, 0xffff00);
       graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
+      pauseTimer();  
   });
 
-  //handles if item is "dropped in dropzone"
+  //handles if item is "dropped in dropzone" and begins timer when item is placed in a drop box.
   this.input.on('drop', function (pointer, gameObject, dropZone) {
       console.log("Item Dropped into DropZone");
       gameObject.x = dropZone.x
       gameObject.y = dropZone.y;
+      var fiveMinutes = 60 * 5,
+      display = document.querySelector('#time');
+      startTimer(fiveMinutes, display);
       
       //makes the object 'stuck'
       // gameObject.input.enabled = false;
@@ -137,6 +142,29 @@ this.input.on('dragend', function (pointer, gameObject, dropped) {
   graphics.lineStyle(6, 0xffff00);
   graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
 });
+
+//Starts the timer
+function startTimer(duration, display) {
+  timer = duration, minutes, seconds;
+  setInterval(function () {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (--timer < 0) {
+          timer = duration;
+          return;
+      }
+  }, 1000);
+}
+
+function pauseTimer(){
+  
+}
 
 }
 

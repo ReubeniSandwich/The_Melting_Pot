@@ -17,6 +17,7 @@ new Phaser.Game({
 });
 
 //Code to create a timer to be activated when the player puts food on the stove top.
+/*
 function startTimer(duration, display) {
   var timer = duration, minutes, seconds;
   setInterval(function () {
@@ -37,5 +38,7 @@ function startTimer(duration, display) {
 window.onload = function () {
   var fiveMinutes = 60 * 5,
       display = document.querySelector('#time');
-  startTimer(fiveMinutes, display);
+      console.log(scene[3]);
+  Phaser.Game.scene[3].drop = startTimer(fiveMinutes, display);
 };
+*/
