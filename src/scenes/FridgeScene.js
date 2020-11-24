@@ -20,10 +20,8 @@ export default class FridgeScene extends Phaser.Scene {
   }
 
   create() {
-    let pastaIngredient = this.add.image(100, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive();
-    let saltShaker = this.add.image(200, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({
-      draggable: true
-    });
+    let pastaIngredient = this.add.image(100, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let saltShaker = this.add.image(200, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
 
     let words = this.add.text(20, 20, 'Count: 0', {
       fontSize: 32,
