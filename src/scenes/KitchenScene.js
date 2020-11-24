@@ -1,6 +1,11 @@
 import Phaser from "phaser";
+
 import kitchenTopImage from "../assets/MeltingPotStove_1.png";
 import saltShakerImage from "../assets/MeltingPotSalt.png";
+import buttonFridge from "../assets/Fridge_Button.png";
+import pot from "../assets/Pot.png";
+
+
 
 export default class KitchenScene extends Phaser.Scene {
 
@@ -11,28 +16,28 @@ export default class KitchenScene extends Phaser.Scene {
 preload () {
 
   this.load.image("kitchenTop", kitchenTopImage);
-  this.load.image("kitchenSink", "assets/MeltingPotSinkScreen.png");
-  this.load.image("burnerFlame", "assets/MeltingPotBurnerFlame.png");
+  // this.load.image("kitchenSink", "assets/MeltingPotSinkScreen.png");
+  // this.load.image("burnerFlame", "assets/MeltingPotBurnerFlame.png");
 
-  this.load.image("buttonCabinet", "assets/Cabinet_Button.png");
-  this.load.image("buttonFridge", "assets/Fridge_Button.png");
-  this.load.image("buttonSink", "assets/Sink_Button.png");
-  this.load.image("buttonBackToStove", "assets/BackToStoveTop_Button.png");
-  this.load.image("buttonDone", "assets/Done_Button.png");
-  this.load.image("buttonExit", "assets/Exit_Button.png");
+  // this.load.image("buttonCabinet", "assets/Cabinet_Button.png");
+  this.load.image("buttonFridge", buttonFridge);
+  // this.load.image("buttonSink", "assets/Sink_Button.png");
+  // this.load.image("buttonBackToStove", "assets/BackToStoveTop_Button.png");
+  // this.load.image("buttonDone", "assets/Done_Button.png");
+  // this.load.image("buttonExit", "assets/Exit_Button.png");
 
-  this.load.image("butterIngredient", "assets/MeltingPotButter.png");
+  // this.load.image("butterIngredient", "assets/MeltingPotButter.png");
   this.load.image("saltShaker", saltShakerImage);
-  this.load.image("pepperShaker", "assets/MeltingPotPepper.png");
-  this.load.image("pastaIngredient", "assets/MeltingPotNoodles.png");
-  this.load.image("pastaCooked", "assets/MeltingPotNoodlesCooked.png");
-  this.load.image("pan", "assets/Pan.png");
-  this.load.image("pot", "assets/Pot.png");
-  this.load.image("potWater", "assets/Pot_with_Water.png");
-  this.load.image("potWaterNoodles", "assets/Pot_with_Water_and_Raw_Noods.png");
-  this.load.image("potBoilingWater", "assets/Pot_with_Boiling_Water.png");
+  // this.load.image("pepperShaker", "assets/MeltingPotPepper.png");
+  // this.load.image("pastaIngredient", "assets/MeltingPotNoodles.png");
+  // this.load.image("pastaCooked", "assets/MeltingPotNoodlesCooked.png");
+  // this.load.image("pan", "assets/Pot.png");
+  this.load.image("pot", pot);
+  // this.load.image("potWater", "assets/Pot_with_Water.png");
+  // this.load.image("potWaterNoodles", "assets/Pot_with_Water_and_Raw_Noods.png");
+  // this.load.image("potBoilingWater", "assets/Pot_with_Boiling_Water.png");
 
-  this.load.image("clover", "assets/clover.png")
+  // this.load.image("clover", "assets/clover.png")
 
   // this.load.image("", "assets/");
 
@@ -44,23 +49,25 @@ create () {
 
   let kitchenTop = this.add.image(0, 0, "kitchenTop").setScale(0.47, 0.4).setOrigin(0, 0);    
   // let kitchenSink =this.add.image(0, 0, "kitchenSink").setScale(0.47, 0.4).setOrigin(0, 0);
-  let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let buttonExit = this.add.image(200, 200, "buttonExit").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let buttonCabinet = this.add.image(200, 200, "buttonCabinet").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let buttonFridge = this.add.image(200, 200, "buttonFridge").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let buttonExit = this.add.image(200, 200, "buttonExit").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let buttonCabinet = this.add.image(200, 200, "buttonCabinet").setScale(0.4, 0.4).setInteractive({draggable: true});
 
-  let pan = this.add.image(200, 225, "pan").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let pot = this.add.image(200, 200, "pot").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // testing fridge overlay
+  let buttonFridge = this.add.image(200, 500, "buttonFridge").setScale(0.4, 0.4).setInteractive({draggable: false});
 
-  let butter = this.add.image(200, 200, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let pan = this.add.image(200, 225, "pan").setScale(0.4, 0.4).setInteractive({draggable: true});
+  let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
+  // let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true});
+
+  // let butter = this.add.image(200, 200, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
   let saltShaker = this.add.image(200, 200, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true})
-  let pastaIngredient = this.add.image(200, 200, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
-  let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true})
+  // let pastaIngredient = this.add.image(200, 200, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+  // let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true});
 
-  let clover = this.add.image(700, 320, "clover").setInteractive({draggable: true})
+  // let clover = this.add.image(700, 320, "clover").setInteractive({draggable: true})
 
 
   let cookZoneTopLeft = this.add.zone(500, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
@@ -79,6 +86,38 @@ create () {
   graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
   
  
+  // Scene1
+ 
+
+ // Scene2
+ 
+
+  let x = 0;
+  buttonFridge.on('pointerdown', function(pointer, localX, localY, event){
+    // ...
+    console.log("howdy partner");
+    // this.scene.start('FridgeScene');
+    // this.events.emit('myEvent', x);
+    // var emitter = new Phaser.Events.EventEmitter();
+    // this.scene.events.emit('playerData', x);
+
+    x++;
+    console.log(x);
+
+    // how data is passed
+    // this.emitter= EventsCenter.getInstance();
+    // this.emitter.emit("MY_EVENT","String_Data")
+    this.events.emit('KITCHEN_INGREDIENT_EVENT', x + " Passed Data From Kitchen To Fridge");
+
+    console.log(this.scene.isVisible('FridgeScene'));
+    if (!this.scene.isVisible('FridgeScene')) {
+      this.scene.setVisible(true, 'FridgeScene');
+    }
+
+  }, this);
+    
+
+// });
 
   // Object Dragging Logic
   this.input.on('dragstart', function (pointer, gameObject) {
@@ -142,5 +181,6 @@ this.input.on('dragend', function (pointer, gameObject, dropped) {
 
 update ()
 {
+
 }
 }

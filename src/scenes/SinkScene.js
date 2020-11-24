@@ -10,7 +10,7 @@ export default class SinkScene extends Phaser.Scene {
     }
 
     preload() {
-
+        
     }
 
     create(){

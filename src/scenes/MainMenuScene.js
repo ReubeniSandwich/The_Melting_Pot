@@ -17,8 +17,9 @@ export default class MainMenuScene extends Phaser.Scene {
 
         this.add.text(20, 20, "Loading game...");
         setTimeout(() => {
-            this.scene.start('KitchenScene')
-          }, 3000);
+            this.scene.start('KitchenScene');
+            this.scene.launch('FridgeScene')
+          }, 1000);
       }
 
     update () {
