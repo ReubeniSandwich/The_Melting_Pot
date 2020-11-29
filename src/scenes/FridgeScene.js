@@ -23,9 +23,13 @@ export default class FridgeScene extends Phaser.Scene {
 
   create() {
     //  let kitchenSink =this.add.image(0, 0, "kitchenSink").setScale(0.47, 0.4).setOrigin(0, 0);
-     
-    let pastaIngredient = this.add.image(100, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let saltShaker = this.add.image(200, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+
+    let pastaIngredient = this.add.image(100, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({
+      draggable: true
+    });
+    let saltShaker = this.add.image(200, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({
+      draggable: true
+    });
 
     let words = this.add.text(20, 20, 'Count: 0', {
       fontSize: 32,
@@ -56,13 +60,13 @@ export default class FridgeScene extends Phaser.Scene {
     this.input.on('dragend', function (pointer, gameObject) {
       gameObject.clearTint();
 
-          // how data is passed
-    // this.emitter= EventsCenter.getInstance();
-    console.log("Hello hello freud");
-    // this.events.emit('KITCHEN_INGREDIENT_EVENT', 5 + " Passed Data From Fridge to Kitchen");
-    // this.scene.pause();
-    switchScene();
-    
+      // how data is passed
+      // this.emitter= EventsCenter.getInstance();
+      console.log("Hello hello freud");
+      // this.events.emit('KITCHEN_INGREDIENT_EVENT', 5 + " Passed Data From Fridge to Kitchen");
+      // this.scene.pause();
+      switchScene();
+
 
     });
 
@@ -72,20 +76,20 @@ export default class FridgeScene extends Phaser.Scene {
     }
 
     // is currently not being passed
-    
+
 
     const switchScene = () => {
       console.log("switch switch?");
       const passedData = "BUFFALFO";
       // console.log(this);
       this.scene.resume('KitchenScene', passedData);
-      
+
       setTimeout(() => {
         this.scene.pause();
       }, 1);
-      
-      console.log( this.scene.isPaused('KitchenScene'));
-      console.log( this.scene.isPaused('FridgeScene'));
+
+      console.log(this.scene.isPaused('KitchenScene'));
+      console.log(this.scene.isPaused('FridgeScene'));
     }
 
   }
