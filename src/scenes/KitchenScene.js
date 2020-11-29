@@ -10,7 +10,7 @@ import pot from "../assets/Pot.png";
 export default class KitchenScene extends Phaser.Scene {
 
     constructor() {
-        super("KitchenScene");
+        super('KitchenScene');
       }
 
 preload () {
@@ -104,18 +104,36 @@ create () {
     x++;
     console.log(x);
 
-    // how data is passed
-    // this.emitter= EventsCenter.getInstance();
-    // this.emitter.emit("MY_EVENT","String_Data")
-    this.events.emit('KITCHEN_INGREDIENT_EVENT', x + " Passed Data From Kitchen To Fridge");
+    // // how data is passed
+    // // this.emitter= EventsCenter.getInstance();
+    // // this.emitter.emit("MY_EVENT","String_Data")
+    // this.events.emit('KITCHEN_INGREDIENT_EVENT', x + " Passed Data From Kitchen To Fridge");
+
+        //event emitter listener 
+        this.scene.get('FridgeScene').events.on('KITCHEN_INGREDIENT_EVENT', function (object) {
+          updateCount(object)
+        });
+
+        function updateCount(object) {
+          console.log("updateCount function reached! " + object);
+        }
 
     console.log(this.scene.isVisible('FridgeScene'));
     if (!this.scene.isVisible('FridgeScene')) {
       this.scene.setVisible(true, 'FridgeScene');
+      this.scene.pause();
     }
 
   }, this);
     
+  // onResume
+  // Data might be passed here, try putting it in the function?
+  this.scene.get(this).events.on('resume', (data) => {
+    // this.textObj.setText(data.someMath.toString());
+    console.log(data);
+  });
+  //currently does not seem to pass data
+
 
 // });
 
