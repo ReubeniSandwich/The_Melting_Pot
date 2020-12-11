@@ -67,14 +67,16 @@ export default class KitchenScene extends Phaser.Scene {
     let cookZoneBottomRight = this.add.zone(700, 420, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
 
     let self = this;
+    
+    // EVENT LISTENERS ++++++++++++++
 
+    // event listener for sent data from FridgeScene
     this.scene.get('FridgeScene').events.on('FRIDGE_DATA', function (data) {
       console.log("data sucessfully retrieved from: FRIDGE_DATA");
       console.log(data);
       // TODO do stuff with this
     });
    
-    // EVENT LISTENERS ++++++++++++++
     // resume event listener
     this.scene.get(this).events.on('resume', function () {
       console.log("Event: onResume");
