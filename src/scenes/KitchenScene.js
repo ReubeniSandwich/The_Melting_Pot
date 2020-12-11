@@ -68,13 +68,16 @@ export default class KitchenScene extends Phaser.Scene {
 
     let self = this;
 
+    this.scene.get('FridgeScene').events.on('FRIDGE_DATA', function (data) {
+      console.log("data sucessfully retrieved from: FRIDGE_DATA");
+      console.log(data);
+      // TODO do stuff with this
+    });
    
     // EVENT LISTENERS ++++++++++++++
-
     // resume event listener
     this.scene.get(this).events.on('resume', function () {
       console.log("Event: onResume");
-      receiveData('FRIDGE_DATA');
     });
 
     // When the fridge is clicked, switch to that scene.
@@ -125,17 +128,7 @@ export default class KitchenScene extends Phaser.Scene {
 
     // FUNCTIONS / METHODS +++++++++++++++
 
-    // in progress, need a way to use this data
-    // ensure that the sendData uses the same emitterName. cAse sEnsiTivE
-    // param: emitterName : String
-    const receiveData = (emitterName) => {
-      this.scene.get('FridgeScene').events.on(emitterName, function (data) {
-        console.log("data sucessfully retrieved from: " + emitterName);
-        console.log(data);
-        return data;
-      });
 
-      }
 
     // will switch to FridgeScene and pause the kitchen.
     // sceneName: String
@@ -193,3 +186,16 @@ export default class KitchenScene extends Phaser.Scene {
     // cookZoneTopRight.input.dropZone = false;
     // cookZoneBottomLeft.input.dropZone = false;
     // cookZoneBottomRight.input.dropZone = false;
+
+
+        // in progress, need a way to use this data
+    // ensure that the sendData uses the same emitterName. cAse sEnsiTivE
+    // param: emitterName : String
+    // const receiveData = (emitterName) => {
+    //   this.scene.get('FridgeScene').events.once(emitterName, function (data) {
+    //     console.log("data sucessfully retrieved from: " + emitterName);
+    //     console.log(data);
+    //     return data;
+    //   });
+
+    //   }
