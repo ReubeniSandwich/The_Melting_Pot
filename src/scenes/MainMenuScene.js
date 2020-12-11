@@ -15,6 +15,7 @@ export default class MainMenuScene extends Phaser.Scene {
 
     create(){
 
+        // important that they start in conjunction... I think... for passign data using event
         this.add.text(20, 20, "Loading game...");
         setTimeout(() => {
             this.scene.start('KitchenScene');

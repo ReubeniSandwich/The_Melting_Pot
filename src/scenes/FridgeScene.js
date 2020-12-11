@@ -39,7 +39,8 @@ export default class FridgeScene extends Phaser.Scene {
 
     this.input.on('dragend', function (pointer, gameObject) {
       gameObject.clearTint();
-
+      sendData('FRIDGE_DATA', "Hello World!");
+      switchToKitchenScene();
     });
 
   

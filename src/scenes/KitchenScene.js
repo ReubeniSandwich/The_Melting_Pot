@@ -36,11 +36,6 @@ export default class KitchenScene extends Phaser.Scene {
     // this.load.image("potWater", "assets/Pot_with_Water.png");
     // this.load.image("potWaterNoodles", "assets/Pot_with_Water_and_Raw_Noods.png");
     // this.load.image("potBoilingWater", "assets/Pot_with_Boiling_Water.png");
-
-    // this.load.image("clover", "assets/clover.png")
-
-    // this.load.image("", "assets/");
-
   }
 
   create() {
@@ -55,24 +50,16 @@ export default class KitchenScene extends Phaser.Scene {
     let buttonFridge = this.add.image(200, 500, "buttonFridge").setScale(0.4, 0.4).setInteractive({
       draggable: false
     });
-
     // let pan = this.add.image(200, 225, "pan").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({
-      draggable: true
-    });
+    let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
     // let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true});
 
     // let butter = this.add.image(200, 200, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let saltShaker = this.add.image(200, 200, "saltShaker").setScale(0.4, 0.4).setInteractive({
-      draggable: true
-    });
+    let saltShaker = this.add.image(200, 200, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true})
     // let pastaIngredient = this.add.image(200, 200, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true});
-
-    // let clover = this.add.image(700, 320, "clover").setInteractive({draggable: true})
-
 
     let cookZoneTopLeft = this.add.zone(500, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
     let cookZoneTopRight = this.add.zone(700, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
@@ -82,14 +69,23 @@ export default class KitchenScene extends Phaser.Scene {
     let self = this;
 
    
+    // EVENT LISTENERS ++++++++++++++
 
+        // resume event listener
+    this.scene.get(this).events.on('resume', function () {
+      console.log("Event: onResume");
+      receiveData('FRIDGE_DATA');
+    });
+
+    // When the fridge is clicked, switch to that scene.
     buttonFridge.on('pointerdown', function (pointer, localX, localY, event) {
+      console.log("Event: buttonFridge: clicked");
       switchToFridgeScene();
     }, this);
 
     // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
-      console.log("dragstart");
+      console.log("Event: dragstart");
       gameObject.setTint(0xff0000);
       self.children.bringToTop(gameObject);
     });
@@ -103,7 +99,7 @@ export default class KitchenScene extends Phaser.Scene {
     // event listener while object is being dragged
     // this one enables smooth dragging
     this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-      console.log("Event: drag");
+      // console.log("Event: drag");
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
@@ -126,12 +122,19 @@ export default class KitchenScene extends Phaser.Scene {
       gameObject.y = dropZone.y;
     });
 
-    // FUNCTIONS / METHODS
 
+    // FUNCTIONS / METHODS +++++++++++++++
+
+    // in progress, need a way to use this data
+    // ensure that the sendData uses the same emitterName. cAse sEnsiTivE
     // param: emitterName : String
-    function receiveData (emitterName) {
-      this.scene.get('FridgeScene').events.on(emitterName, data);
-      return data;
+    const receiveData = (emitterName) => {
+      this.scene.get('FridgeScene').events.on(emitterName, function (data) {
+        console.log("data sucessfully retrieved from: " + emitterName);
+        console.log(data);
+        return data;
+      });
+
       }
 
     // will switch to FridgeScene and pause the kitchen.
@@ -141,7 +144,6 @@ export default class KitchenScene extends Phaser.Scene {
       this.scene.setVisible(true, 'FridgeScene');
       this.scene.pause();
     }
-
   }
 
   update() {
