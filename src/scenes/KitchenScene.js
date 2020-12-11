@@ -71,7 +71,7 @@ export default class KitchenScene extends Phaser.Scene {
    
     // EVENT LISTENERS ++++++++++++++
 
-        // resume event listener
+    // resume event listener
     this.scene.get(this).events.on('resume', function () {
       console.log("Event: onResume");
       receiveData('FRIDGE_DATA');
