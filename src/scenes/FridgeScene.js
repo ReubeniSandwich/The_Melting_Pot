@@ -38,7 +38,7 @@ export default class FridgeScene extends Phaser.Scene {
 
     // how data is passed
     // this.emitter= EventsCenter.getInstance();
-    this.events.emit('KITCHEN_INGREDIENT_EVENT', " Passed Data From Fridge to Kitchen");
+    
 
 
     // //event emitter listener 
@@ -80,16 +80,14 @@ export default class FridgeScene extends Phaser.Scene {
 
     const switchScene = () => {
       console.log("switch switch?");
-      const passedData = "BUFFALFO";
-      // console.log(this);
+      const passedData = {moo: "BUF"};
+      this.events.emit('KITCHEN_INGREDIENT_EVENT', passedData);
       this.scene.resume('KitchenScene', passedData);
+      this.scene.pause();
 
-      setTimeout(() => {
-        this.scene.pause();
-      }, 1);
 
-      console.log(this.scene.isPaused('KitchenScene'));
-      console.log(this.scene.isPaused('FridgeScene'));
+      // console.log(this.scene.isPaused('KitchenScene'));
+      // console.log(this.scene.isPaused('FridgeScene'));
     }
 
   }

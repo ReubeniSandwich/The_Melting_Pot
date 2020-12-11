@@ -117,12 +117,13 @@ export default class KitchenScene extends Phaser.Scene {
 
       //event emitter listener 
       this.scene.get('FridgeScene').events.on('KITCHEN_INGREDIENT_EVENT', function (object) {
-        updateCount(object)
+        console.log(object);
+        // updateCount(object)
       });
 
-      function updateCount(object) {
-        console.log("updateCount function reached! " + object);
-      }
+      // function updateCount(object) {
+      //   console.log("updateCount function reached! " + object);
+      // }
 
       console.log(this.scene.isVisible('FridgeScene'));
       if (!this.scene.isVisible('FridgeScene')) {
@@ -134,6 +135,8 @@ export default class KitchenScene extends Phaser.Scene {
 
     // onResume
     // Data might be passed here, try putting it in the function?
+    // What's probably happening here is that the other scene is not on the same js file. so when the on resume is started up
+  //  it's not catching that data because it's in ANOTHER js file.
     this.scene.get(this).events.on('resume', (data) => {
       // this.textObj.setText(data.someMath.toString());
       console.log(data);
