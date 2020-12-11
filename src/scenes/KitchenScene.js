@@ -45,8 +45,6 @@ export default class KitchenScene extends Phaser.Scene {
 
   create() {
 
-    let self = this;
-
     let kitchenTop = this.add.image(0, 0, "kitchenTop").setScale(0.47, 0.4).setOrigin(0, 0);
     // let kitchenSink =this.add.image(0, 0, "kitchenSink").setScale(0.47, 0.4).setOrigin(0, 0);
     // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
@@ -81,128 +79,68 @@ export default class KitchenScene extends Phaser.Scene {
     let cookZoneBottomLeft = this.add.zone(500, 420, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
     let cookZoneBottomRight = this.add.zone(700, 420, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
 
+    let self = this;
 
-    // cookZoneTopRight.input.dropZone = false;
-    // cookZoneBottomLeft.input.dropZone = false;
-    // cookZoneBottomRight.input.dropZone = false;
+   
 
-    // This is just some ugly code that makes the yellow square
-    var graphics = this.add.graphics();
-    graphics.lineStyle(6, 0xffff00);
-    graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
-
-
-    // Scene1
-
-
-    // Scene2
-
-
-    let x = 0;
     buttonFridge.on('pointerdown', function (pointer, localX, localY, event) {
-      // ...
-      console.log("howdy partner");
-      // this.scene.start('FridgeScene');
-      // this.events.emit('myEvent', x);
-      // var emitter = new Phaser.Events.EventEmitter();
-      // this.scene.events.emit('playerData', x);
-
-      x++;
-      console.log(x);
-
-      // // how data is passed
-      // // this.emitter= EventsCenter.getInstance();
-      // // this.emitter.emit("MY_EVENT","String_Data")
-      // this.events.emit('KITCHEN_INGREDIENT_EVENT', x + " Passed Data From Kitchen To Fridge");
-
-      //event emitter listener 
-      this.scene.get('FridgeScene').events.on('KITCHEN_INGREDIENT_EVENT', function (object) {
-        console.log(object);
-        // updateCount(object)
-      });
-
-      // function updateCount(object) {
-      //   console.log("updateCount function reached! " + object);
-      // }
-
-      console.log(this.scene.isVisible('FridgeScene'));
-      if (!this.scene.isVisible('FridgeScene')) {
-        this.scene.setVisible(true, 'FridgeScene');
-        this.scene.pause();
-      }
-
+      switchToFridgeScene();
     }, this);
 
-    // onResume
-    // Data might be passed here, try putting it in the function?
-    // What's probably happening here is that the other scene is not on the same js file. so when the on resume is started up
-  //  it's not catching that data because it's in ANOTHER js file.
-    this.scene.get(this).events.on('resume', (data) => {
-      // this.textObj.setText(data.someMath.toString());
-      console.log(data);
-    });
-    //currently does not seem to pass data
-
-
-    // });
-
-    // Object Dragging Logic
+    // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
+      console.log("dragstart");
       gameObject.setTint(0xff0000);
       self.children.bringToTop(gameObject);
     });
+    
+    // event listener when the dragging ends
+    this.input.on('dragend', function (pointer, gameObject) {
+      console.log("Event: dragend");
+      gameObject.clearTint();
+    });
 
+    // event listener while object is being dragged
+    // this one enables smooth dragging
     this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-      // Smooth movement
-      // console.log (`X: ${dragX} | Y: ${dragY}`);
+      console.log("Event: drag");
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
 
-    this.input.on('dragend', function (pointer, gameObject) {
-      gameObject.clearTint();
-    });
-
+     // event listener if the object enters a area while being dragged
     this.input.on('dragenter', function (pointer, gameObject, dropZone) {
-      console.log("drag enter");
-      graphics.clear();
-      graphics.lineStyle(6, 0x00ffff);
-      graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
+      console.log("Event: dragenter");
     });
 
 
+    // event listener if the object leaves a area while being dragged
     this.input.on('dragleave', function (pointer, gameObject, dropZone) {
-      console.log("drag leave");
-      console.log(this.x);
-
-      graphics.clear();
-      graphics.lineStyle(6, 0xffff00);
-      graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
+      console.log("Event: dragleave");
     });
 
-    //handles if item is "dropped in dropzone"
+    //event listener if item is dropped into dropzone
     this.input.on('drop', function (pointer, gameObject, dropZone) {
-      console.log("Item Dropped into DropZone");
+      console.log("Event: drop");
       gameObject.x = dropZone.x
       gameObject.y = dropZone.y;
-
-      //makes the object 'stuck'
-      // gameObject.input.enabled = false;
     });
 
-    this.input.on('dragend', function (pointer, gameObject, dropped) {
+    // FUNCTIONS / METHODS
 
-      // Moves the object back if it was not put into drop zone
-      // if (!dropped)
-      // {
-      //     gameObject.x = gameObject.input.dragStartX;
-      //     gameObject.y = gameObject.input.dragStartY;
-      // }
+    // param: emitterName : String
+    function receiveData (emitterName) {
+      this.scene.get('FridgeScene').events.on(emitterName, data);
+      return data;
+      }
 
-      graphics.clear();
-      graphics.lineStyle(6, 0xffff00);
-      graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
-    });
+    // will switch to FridgeScene and pause the kitchen.
+    // sceneName: String
+    const switchToFridgeScene = () => {
+      this.scene.resume('FridgeScene');
+      this.scene.setVisible(true, 'FridgeScene');
+      this.scene.pause();
+    }
 
   }
 
@@ -210,3 +148,46 @@ export default class KitchenScene extends Phaser.Scene {
 
   }
 }
+
+
+
+
+// this.input.on('dragend', function (pointer, gameObject, dropped) {
+
+  // Moves the object back if it was not put into drop zone
+  // if (!dropped)
+  // {
+  //     gameObject.x = gameObject.input.dragStartX;
+  //     gameObject.y = gameObject.input.dragStartY;
+  // }
+
+
+        //makes the object 'stuck'
+      // gameObject.input.enabled = false;
+
+          // onResume
+    // Data might be passed here, try putting it in the function?
+    // What's probably happening here is that the other scene is not on the same js file. so when the on resume is started up
+  //  it's not catching that data because it's in ANOTHER js file.
+    // this.scene.get(this).events.on('resume', (data) => {
+      // this.textObj.setText(data.someMath.toString());
+      // console.log(data);
+    // });
+
+    // resume event listener
+        // this.scene.get(this).events.on('resume', () => {
+//          }
+
+ // This is just some ugly code that makes the yellow square
+// var graphics = this.add.graphics();
+// graphics.lineStyle(6, 0xffff00);
+// graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
+
+// graphics.clear();
+// graphics.lineStyle(6, 0xffff00);
+// graphics.strokeRect(cookZoneTopLeft.x - cookZoneTopLeft.input.hitArea.width / 2, cookZoneTopLeft.y - cookZoneTopLeft.input.hitArea.height / 2, cookZoneBottomLeft.input.hitArea.width, cookZoneBottomLeft.input.hitArea.height);
+
+
+    // cookZoneTopRight.input.dropZone = false;
+    // cookZoneBottomLeft.input.dropZone = false;
+    // cookZoneBottomRight.input.dropZone = false;

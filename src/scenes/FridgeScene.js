@@ -32,7 +32,7 @@ export default class FridgeScene extends Phaser.Scene {
 
     
     // EVENT LISTENERS ++++++++++++++
-    
+
     this.input.on('dragstart', function (pointer, gameObject) {
       gameObject.setTint(0xff0000);
     });
@@ -48,14 +48,16 @@ export default class FridgeScene extends Phaser.Scene {
     // send data across files in real time.
     // params: emitterName is the unique name you give to the emitter, you will use the same name with the data receiver
     // params: data. pass data hwoever you need to in this variable
-    const emitData = (emitterName, data) => {
+    const sendData = (emitterName, data) => {
       this.events.emit(emitterName, data);
     }
 
-    // will switch to scene and pause the current one. cAse SenSitive.
+    // switch to KitchenScene and pause / hide this one
+    // send any data before switching.
     // sceneName: String
-    const switchScene = (sceneName) => {
-      this.scene.resume(sceneName);
+    const switchToKitchenScene = () => {
+      this.scene.resume('KitchenScene');
+      this.scene.setVisible(false, 'FridgeScene');
       this.scene.pause();
     }
   }
