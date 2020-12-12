@@ -11,8 +11,6 @@ new Phaser.Game({
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  scene: [MainMenuScene, LoadingScene, SettingsScene, KitchenScene, SinkScene, FridgeScene]
-  // scale: {
-  //   mode: Phaser.Scale.RESIZE
-  // }
+  scene: [LoadingScene, MainMenuScene, SettingsScene, KitchenScene, SinkScene, FridgeScene]
+
 });
