@@ -98,7 +98,7 @@ export default class KitchenScene extends Phaser.Scene {
       // TODO fire animation
     }, this);
 
-    
+
     // event listener for sent data from FridgeScene
     this.scene.get('FridgeScene').events.on('FRIDGE_DATA', function (data) {
       console.log("data sucessfully retrieved from: FRIDGE_DATA");
@@ -159,7 +159,13 @@ export default class KitchenScene extends Phaser.Scene {
 
     // FUNCTIONS / METHODS +++++++++++++++
 
+    setTimer(5000);
 
+    // Read into callback functions, probably what is needed here.
+    function setTimer(timeAmount) {
+      setTimeout(function() { 
+        console.log("hello, you put timer for: " + timeAmount + "ms"); }, timeAmount);
+    }
 
     // will switch to FridgeScene and pause the kitchen.
     // sceneName: String
