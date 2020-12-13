@@ -4,6 +4,7 @@ import kitchenTopImage from "../assets/MeltingPotStove_1.png";
 import saltShakerImage from "../assets/MeltingPotSalt.png";
 import buttonFridge from "../assets/Fridge_Button.png";
 import pot from "../assets/Pot.png";
+import burnerFlame from "../assets/MeltingPotBurnerFlame.png";
 
 
 
@@ -17,7 +18,7 @@ export default class KitchenScene extends Phaser.Scene {
 
     this.load.image("kitchenTop", kitchenTopImage);
     // this.load.image("kitchenSink", "assets/MeltingPotSinkScreen.png");
-    // this.load.image("burnerFlame", "assets/MeltingPotBurnerFlame.png");
+    this.load.image("burnerFlame", burnerFlame);
 
     // this.load.image("buttonCabinet", "assets/Cabinet_Button.png");
     this.load.image("buttonFridge", buttonFridge);
@@ -42,6 +43,7 @@ export default class KitchenScene extends Phaser.Scene {
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     let kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
+    let burnerFlame = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
     // let kitchenSink =this.add.image(0, 0, "kitchenSink").setScale(0.47, 0.4).setOrigin(0, 0);
     // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let buttonExit = this.add.image(200, 200, "buttonExit").setScale(0.4, 0.4).setInteractive({draggable: true});
@@ -62,15 +64,41 @@ export default class KitchenScene extends Phaser.Scene {
     // let pastaIngredient = this.add.image(200, 200, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true});
 
-    let cookZoneTopLeft = this.add.zone(500, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
-    let cookZoneTopRight = this.add.zone(700, 220, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
-    let cookZoneBottomLeft = this.add.zone(500, 420, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
-    let cookZoneBottomRight = this.add.zone(700, 420, 100, 100).setRectangleDropZone(100, 100); //zone(x, y, width, height);
+    let stoveButtonBottomLeft = this.add.image(730, 200, "startButton").setScale(.2, .3).setInteractive();
+
+    let cookZoneTopLeft = this.add.zone(405, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    let cookZoneBottomLeft = this.add.zone(406, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    let cookZoneTopRight = this.add.zone(570, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    let cookZoneBottomRight = this.add.zone(572, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    this.input.enableDebug(cookZoneBottomLeft);
+    this.input.enableDebug(cookZoneBottomRight);
+    this.input.enableDebug(cookZoneTopLeft);
+    this.input.enableDebug(cookZoneTopRight);
+
+    cookZoneTopLeft.isActive = false;
+    cookZoneBottomLeft.isActive = false;
+    cookZoneTopRight.isActive = false;
+    cookZoneBottomRight.isActive = false;
 
     let self = this;
-    
+
     // EVENT LISTENERS ++++++++++++++
 
+    stoveButtonBottomLeft.on('pointerdown', function () {
+      cookZoneBottomLeft.isActive = !cookZoneBottomLeft.isActive;
+      console.log("Event: stoveButtonBottomLeft: isActive: " + cookZoneBottomLeft.isActive);
+
+      if (cookZoneBottomLeft.isActive === true) {
+        stoveButtonBottomLeft.setTint(0xff0001);
+        burnerFlame.setVisible(true);
+      } else {
+        stoveButtonBottomLeft.clearTint();
+        burnerFlame.setVisible(false);
+      }
+      // TODO fire animation
+    }, this);
+
+    
     // event listener for sent data from FridgeScene
     this.scene.get('FridgeScene').events.on('FRIDGE_DATA', function (data) {
       console.log("data sucessfully retrieved from: FRIDGE_DATA");
@@ -91,14 +119,14 @@ export default class KitchenScene extends Phaser.Scene {
 
     // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
-      console.log("Event: dragstart");
+      // console.log("Event: dragstart");
       gameObject.setTint(0xff0000);
       self.children.bringToTop(gameObject);
     });
     
     // event listener when the dragging ends
     this.input.on('dragend', function (pointer, gameObject) {
-      console.log("Event: dragend");
+      // console.log("Event: dragend");
       gameObject.clearTint();
     });
 
@@ -112,13 +140,13 @@ export default class KitchenScene extends Phaser.Scene {
 
      // event listener if the object enters a area while being dragged
     this.input.on('dragenter', function (pointer, gameObject, dropZone) {
-      console.log("Event: dragenter");
+      // console.log("Event: dragenter");
     });
 
 
     // event listener if the object leaves a area while being dragged
     this.input.on('dragleave', function (pointer, gameObject, dropZone) {
-      console.log("Event: dragleave");
+      // console.log("Event: dragleave");
     });
 
     //event listener if item is dropped into dropzone
