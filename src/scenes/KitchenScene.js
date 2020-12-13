@@ -39,8 +39,9 @@ export default class KitchenScene extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
 
-    let kitchenTop = this.add.image(0, 0, "kitchenTop").setScale(0.47, 0.4).setOrigin(0, 0);
+    let kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
     // let kitchenSink =this.add.image(0, 0, "kitchenSink").setScale(0.47, 0.4).setOrigin(0, 0);
     // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let buttonExit = this.add.image(200, 200, "buttonExit").setScale(0.4, 0.4).setInteractive({draggable: true});

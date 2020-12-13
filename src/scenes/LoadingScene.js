@@ -17,14 +17,19 @@ export default class LoadingScene extends Phaser.Scene {
     }
 
     create() {
-        const logo = this.add.image(400, 200, "logo").setScale(.4, .3);
+        const logo = this.add.image(400, 200, "logo").setScale(.3);
         let startButton = this.add.image(400, 500, "startButton").setScale(.4, .3);
         // this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#FFFFFF");
         startButton.setInteractive();
 
-        startButton.on("pointerdown", function () {
-            this.scene.start('KitchenScene');
-            this.scene.launch('FridgeScene');
+        startButton.once("pointerdown", function () {
+            this.cameras.main.fadeOut(1000, 0, 0, 0)
+
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.scene.start('MainMenuScene');
+            }); 
+            // this.scene.start('KitchenScene');
+            // this.scene.launch('FridgeScene');
         }, this);
         
         // this.add.text(20, 20, "Loading game...");
