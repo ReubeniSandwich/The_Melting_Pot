@@ -27,6 +27,7 @@ export default class MainMenuScene extends Phaser.Scene {
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.scene.start('KitchenScene');
             this.scene.launch('FridgeScene');
+            this.scene.launch('SinkScene');
         }); 
       }, this);
 

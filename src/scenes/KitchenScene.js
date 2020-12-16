@@ -122,6 +122,16 @@ export default class KitchenScene extends Phaser.Scene {
     }
     
     });
+
+    // event listener for sent data fron SinkScene
+    this.scene.get('SinkScene').events.on('SINK_DATA', function (data) {
+      console.log("data sucessfully retrieved from: SINK_DATA");
+      console.log(data);
+    });
+
+    // possible way to interate through for the fridge scene so that you don't 
+    // have to specify a bunch of hard-coded if statements for making them visible.
+    console.log(self.children);
    
     // resume event listener
     this.scene.get(this).events.on('resume', function () {
@@ -189,6 +199,12 @@ export default class KitchenScene extends Phaser.Scene {
     const switchToFridgeScene = () => {
       this.scene.resume('FridgeScene');
       this.scene.setVisible(true, 'FridgeScene');
+      this.scene.pause();
+    }
+
+    const switchToSinkScene = () => {
+      this.scene.resume('SinkScene');
+      this.scene.setVisible(true, 'SinkScene');
       this.scene.pause();
     }
   }
