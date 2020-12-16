@@ -1,7 +1,4 @@
 import Phaser from "phaser";
-
-import pastaIngredientImport from "../assets/MeltingPotNoodles.png";
-// import saltShakerImage from "../assets/MeltingPotSalt.png";
 import kitchenSink from "../assets/MeltingPotSinkScreen.png";
 
 
@@ -16,13 +13,11 @@ export default class FridgeScene extends Phaser.Scene {
 
   preload() {
     // TODO understand where assets need to be loaded and where they don't need to be
-    // Do not need to preload objects if they have been loaded somewhere else
-    this.load.image("kitchenSink", kitchenSink);
-    this.load.image("pastaIngredient", pastaIngredientImport);
-    // this.load.image("saltShaker", saltShakerImage);
+    // this.load.image("kitchenSink", kitchenSink);
   }
 
   create() {
+    const objectArray = [];
 
     // OBJECTS ++++++++++++++++
     let pastaIngredient = this.add.image(100, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({
@@ -32,19 +27,35 @@ export default class FridgeScene extends Phaser.Scene {
       draggable: true
     });
 
+    let startButton = this.add.image(200, 300, "startButton").setScale(.4, .3).setInteractive();
+
+    pastaIngredient.isSelected = false;
+    saltShaker.isSelected = false;
+
     
     // EVENT LISTENERS ++++++++++++++
 
     this.input.on('dragstart', function (pointer, gameObject) {
-      gameObject.setTint(0xff0000);
+      gameObject.isSelected = !gameObject.isSelected;
+
+      if (gameObject.isSelected === true) {
+        gameObject.setTint(0xff0000);
+        objectArray.push(gameObject.texture.key);
+      } else {
+        gameObject.clearTint();
+        const index = objectArray.indexOf(gameObject.texture.key);
+        objectArray.splice(index, 1);
+      }
     });
 
     this.input.on('dragend', function (pointer, gameObject) {
-      gameObject.clearTint();
-      sendData('FRIDGE_DATA', "Hello World!");
-      switchToKitchenScene();
     });
 
+    startButton.on("pointerdown", function () {
+      console.log("Event: startButton Clicked");
+      sendData('FRIDGE_DATA', objectArray);
+      switchToKitchenScene();
+    }, this);
   
     // METHODS / FUNCTIONS ++++++++++++
 
@@ -63,6 +74,8 @@ export default class FridgeScene extends Phaser.Scene {
       this.scene.setVisible(false, 'FridgeScene');
       this.scene.pause();
     }
+
+
   }
 
 
@@ -73,8 +86,3 @@ export default class FridgeScene extends Phaser.Scene {
 
   }
 }
-    // pastaIngredient.on('pointerdown', function () {
-    //   console.log("pasta");
-    //   pastaIngredient.setTint(0xff0000);
-
-    // });

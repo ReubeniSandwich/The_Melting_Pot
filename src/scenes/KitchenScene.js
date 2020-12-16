@@ -1,5 +1,6 @@
-import Phaser from "phaser";
+import Phaser, { GameObjects } from "phaser";
 
+import pastaIngredientImport from "../assets/MeltingPotNoodles.png";
 import kitchenTopImage from "../assets/MeltingPotStove_1.png";
 import saltShakerImage from "../assets/MeltingPotSalt.png";
 import buttonFridge from "../assets/Fridge_Button.png";
@@ -30,7 +31,7 @@ export default class KitchenScene extends Phaser.Scene {
     // this.load.image("butterIngredient", "assets/MeltingPotButter.png");
     this.load.image("saltShaker", saltShakerImage);
     // this.load.image("pepperShaker", "assets/MeltingPotPepper.png");
-    // this.load.image("pastaIngredient", "assets/MeltingPotNoodles.png");
+    this.load.image("pastaIngredient", pastaIngredientImport);
     // this.load.image("pastaCooked", "assets/MeltingPotNoodlesCooked.png");
     // this.load.image("pan", "assets/Pot.png");
     this.load.image("pot", pot);
@@ -59,9 +60,11 @@ export default class KitchenScene extends Phaser.Scene {
     // let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true});
 
     // let butter = this.add.image(200, 200, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let saltShaker = this.add.image(200, 200, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let saltShaker = this.add.image(200, 200, "saltShaker").setScale(0.4, 0.4).setInteractive({
+      draggable: true}).setVisible(false);
     // let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true})
-    // let pastaIngredient = this.add.image(200, 200, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pastaIngredient = this.add.image(200, 400, "pastaIngredient").setScale(0.4, 0.4).setInteractive({
+      draggable: true}).setVisible(false);
     // let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true});
 
     let stoveButtonBottomLeft = this.add.image(730, 200, "startButton").setScale(.2, .3).setInteractive();
@@ -74,6 +77,7 @@ export default class KitchenScene extends Phaser.Scene {
     this.input.enableDebug(cookZoneBottomRight);
     this.input.enableDebug(cookZoneTopLeft);
     this.input.enableDebug(cookZoneTopRight);
+    this.input.enableDebug(pastaIngredient);
 
     cookZoneTopLeft.isActive = false;
     cookZoneBottomLeft.isActive = false;
@@ -103,7 +107,20 @@ export default class KitchenScene extends Phaser.Scene {
     this.scene.get('FridgeScene').events.on('FRIDGE_DATA', function (data) {
       console.log("data sucessfully retrieved from: FRIDGE_DATA");
       console.log(data);
-      // TODO do stuff with this
+
+      // begging to be but inside a function
+      if (data != null || data.length >= 0) {
+      data.forEach(objectKey => {
+        console.log(objectKey);
+        if (pastaIngredient.texture.key === objectKey) {
+          pastaIngredient.setVisible(true);
+        } 
+        if (saltShaker.texture.key === objectKey) {
+          saltShaker.setVisible(true);
+        }
+      });
+    }
+    
     });
    
     // resume event listener
