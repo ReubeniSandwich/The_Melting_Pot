@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import kitchenSink from "../assets/MeltingPotSinkScreen.png";
+import pot from "../assets/Pot.png";
 import potWater from "../assets/Pot_with_Water.png";
 import potBoilingWater from "../assets/Pot_with_Boiling_Water.png"
 
