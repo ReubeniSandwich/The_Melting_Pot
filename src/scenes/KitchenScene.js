@@ -16,6 +16,10 @@ export default class KitchenScene extends Phaser.Scene {
     super('KitchenScene');
   }
 
+  init () {
+  
+  }
+
   preload() {
 
     this.load.image("kitchenTop", kitchenTopImage);
@@ -56,7 +60,7 @@ export default class KitchenScene extends Phaser.Scene {
       draggable: false
     });
 
-    let buttonSink = this.add.image(100, 500, "buttonSink").setScale(0.4, 0.4).setInteractive({
+    let buttonSink = this.add.image(700, 500, "buttonSink").setScale(0.4, 0.4).setInteractive({
       draggable: false
     });
     // let pan = this.add.image(200, 225, "pan").setScale(0.4, 0.4).setInteractive({draggable: true});
@@ -134,9 +138,10 @@ export default class KitchenScene extends Phaser.Scene {
       console.log(data);
     });
 
+    console.log(this.scene.isSleeping('SinkScene'));
     // possible way to interate through for the fridge scene so that you don't 
     // have to specify a bunch of hard-coded if statements for making them visible.
-    console.log(self.children);
+    // console.log(self.children);
    
     // resume event listener
     this.scene.get(this).events.on('resume', function () {
@@ -189,7 +194,6 @@ export default class KitchenScene extends Phaser.Scene {
 
     //event listener if item is dropped into dropzone
     this.input.on('drop', function (pointer, gameObject, dropZone) {
-      console.log("Event: drop");
       gameObject.x = dropZone.x
       gameObject.y = dropZone.y;
     });
@@ -197,7 +201,7 @@ export default class KitchenScene extends Phaser.Scene {
 
     // FUNCTIONS / METHODS +++++++++++++++
 
-    setTimer(5000);
+    // setTimer(5000);
 
     // Read into callback functions, probably what is needed here.
     function setTimer(timeAmount) {
@@ -205,18 +209,27 @@ export default class KitchenScene extends Phaser.Scene {
         console.log("hello, you put timer for: " + timeAmount + "ms"); }, timeAmount);
     }
 
+
+
     // will switch to FridgeScene and pause the kitchen.
     // sceneName: String
     const switchToFridgeScene = () => {
-      this.scene.resume('FridgeScene');
-      this.scene.setVisible(true, 'FridgeScene');
+      this.scene.launch('FridgeScene');
+      // this.scene.resume('FridgeScene');
+      // this.scene.setVisible(true, 'FridgeScene');
       this.scene.pause();
     }
 
     const switchToSinkScene = () => {
-      this.scene.resume('SinkScene');
-      this.scene.setVisible(true, 'SinkScene');
-      this.scene.pause();
+      
+      console.log(this.scene.isSleeping('SinkScene'));
+      if (this.scene.isSleeping('SinkScene') === true) {
+        this.scene.wake('SinkScene');
+      } else {
+        this.scene.launch('SinkScene');
+      }
+      // this.scene.setVisible(true, 'SinkScene');
+      // this.scene.pause();
     }
   }
 

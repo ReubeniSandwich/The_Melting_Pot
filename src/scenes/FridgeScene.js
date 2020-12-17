@@ -1,8 +1,5 @@
 import Phaser from "phaser";
 import kitchenSink from "../assets/MeltingPotSinkScreen.png";
-import pastaIngredientImport from "../assets/MeltingPotNoodles.png";
-import saltShakerImage from "../assets/MeltingPotSalt.png";
-
 
 
 export default class FridgeScene extends Phaser.Scene {
@@ -11,12 +8,10 @@ export default class FridgeScene extends Phaser.Scene {
   }
 
   init() {
-    this.scene.setVisible(false);
+    // this.scene.setVisible(false);
   }
 
   preload() {
-    this.load.image("saltShaker", saltShakerImage);
-    this.load.image("pastaIngredient", pastaIngredientImport);
     // TODO understand where assets need to be loaded and where they don't need to be
     // this.load.image("kitchenSink", kitchenSink);
   }
