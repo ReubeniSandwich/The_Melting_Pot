@@ -22,7 +22,7 @@ export default class SinkScene extends Phaser.Scene {
 
     create(){
         // may need to rescale this image in image editor
-        let kitchenSink = this.add.image(0, 0, "kitchenSink").setOrigin(0, 0);
+        let kitchenSink = this.add.image(0, 0, "kitchenSink").setOrigin(0, 0).setScale(0.4, 0.4);
         let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
         let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true});
         let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.4, 0.4).setInteractive({draggable: true});
@@ -34,7 +34,7 @@ export default class SinkScene extends Phaser.Scene {
     this.input.on('dragstart', function (pointer, gameObject) {
         // console.log("Event: dragstart");
         gameObject.setTint(0xff0000);
-        self.children.bringToTop(gameObject);
+        // self.children.bringToTop(gameObject);
       });
       
       // event listener when the dragging ends

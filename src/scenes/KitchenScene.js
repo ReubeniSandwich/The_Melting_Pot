@@ -6,6 +6,7 @@ import saltShakerImage from "../assets/MeltingPotSalt.png";
 import buttonFridge from "../assets/Fridge_Button.png";
 import pot from "../assets/Pot.png";
 import burnerFlame from "../assets/MeltingPotBurnerFlame.png";
+import buttonSink from "../assets/Sink_Button.png";
 
 
 
@@ -23,7 +24,7 @@ export default class KitchenScene extends Phaser.Scene {
 
     // this.load.image("buttonCabinet", "assets/Cabinet_Button.png");
     this.load.image("buttonFridge", buttonFridge);
-    // this.load.image("buttonSink", "assets/Sink_Button.png");
+    this.load.image("buttonSink", buttonSink);
     // this.load.image("buttonBackToStove", "assets/BackToStoveTop_Button.png");
     // this.load.image("buttonDone", "assets/Done_Button.png");
     // this.load.image("buttonExit", "assets/Exit_Button.png");
@@ -52,6 +53,10 @@ export default class KitchenScene extends Phaser.Scene {
 
     // testing fridge overlay
     let buttonFridge = this.add.image(200, 500, "buttonFridge").setScale(0.4, 0.4).setInteractive({
+      draggable: false
+    });
+
+    let buttonSink = this.add.image(100, 500, "buttonSink").setScale(0.4, 0.4).setInteractive({
       draggable: false
     });
     // let pan = this.add.image(200, 225, "pan").setScale(0.4, 0.4).setInteractive({draggable: true});
@@ -142,6 +147,12 @@ export default class KitchenScene extends Phaser.Scene {
     buttonFridge.on('pointerdown', function (pointer, localX, localY, event) {
       console.log("Event: buttonFridge: clicked");
       switchToFridgeScene();
+    }, this);
+
+    // When the fridge is clicked, switch to that scene.
+    buttonSink.on('pointerdown', function (pointer, localX, localY, event) {
+      console.log("Event: buttonSink: clicked");
+      switchToSinkScene();
     }, this);
 
     // event listener when dragging begins
