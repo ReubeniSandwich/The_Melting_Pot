@@ -243,6 +243,7 @@ export default class KitchenScene extends Phaser.Scene {
 
   }
 
+  
   update() {
 
   }
