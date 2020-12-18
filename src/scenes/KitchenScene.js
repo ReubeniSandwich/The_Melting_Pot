@@ -93,12 +93,9 @@ export default class KitchenScene extends Phaser.Scene {
     this.input.enableDebug(cookZoneTopRight);
     this.input.enableDebug(pastaIngredient);
     
-
-
-
-
     let self = this;
 
+    
     // EVENT LISTENERS ++++++++++++++
 
     stoveButtonBottomLeft.on('pointerdown', function () {
