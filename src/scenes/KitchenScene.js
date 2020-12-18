@@ -56,7 +56,6 @@ export default class KitchenScene extends Phaser.Scene {
 
     let kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
     let burnerFlame = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
-    // let buttonCabinet = this.add.image(200, 200, "buttonCabinet").setScale(0.4, 0.4).setInteractive({draggable: false});
     let buttonFridge = this.add.image(200, 500, "buttonCabinet").setScale(0.4, 0.4).setInteractive({draggable: false});
     let buttonSink = this.add.image(700, 500, "buttonSink").setScale(0.4, 0.4).setInteractive({draggable: false});
     // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
@@ -195,8 +194,10 @@ export default class KitchenScene extends Phaser.Scene {
     const replacePotWithWaterPot = () => {
       pot.setVisible(false);
       potWater.setVisible(true);
+      pot
       potWater.x = pot.x;
       potWater.y = pot.y;
+      pot.disableInteractive();
       self.children.bringToTop(potWater);
     }
 
@@ -227,8 +228,8 @@ export default class KitchenScene extends Phaser.Scene {
         this.scene.pause();
       } else {
         this.scene.launch('FridgeScene');
+        this.scene.pause();
       }
-      this.scene.pause();
     }
 
     const switchToSinkScene = () => {
@@ -238,6 +239,7 @@ export default class KitchenScene extends Phaser.Scene {
         this.scene.pause();
       } else {
         this.scene.launch('SinkScene');
+        this.scene.pause();
       }
     }
 

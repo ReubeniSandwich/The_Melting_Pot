@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import selectionScreen from "../assets/MeltingPotSelectionScreen.png";
+import noodleRecipeButton from "../assets/recipebutton.png";
 
 export default class MainMenuScene extends Phaser.Scene {
     constructor() {
@@ -10,22 +12,20 @@ export default class MainMenuScene extends Phaser.Scene {
     }
 
     preload() {
-
+      this.load.image("selectionBackground", selectionScreen);
+      this.load.image("noodleRecipeButton", noodleRecipeButton);
     }
 
     create() {
       this.cameras.main.fadeIn(1000, 0, 0, 0)
-      
-      let startButton = this.add.image(400, 500, "startButton").setScale(.4, .3);
-      this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#FFFFFF");
-      startButton.setInteractive();
 
+      const selectionBackground = this.add.image(0, 0, "selectionBackground").setOrigin(0, 0);
+      let noodleRecipeButton = this.add.image(400, 350, "noodleRecipeButton").setScale(.9, .9).setInteractive();
 
-      startButton.once("pointerdown", function () {
+      noodleRecipeButton.once("pointerdown", function () {
+        
         this.cameras.main.fadeOut(1000, 0, 0, 0)
-
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-          // this.scene.launch('SinkScene');
             this.scene.start('KitchenScene');
         }); 
       }, this);
