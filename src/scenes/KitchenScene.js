@@ -71,11 +71,11 @@ export default class KitchenScene extends Phaser.Scene {
     let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let pastaIngredient = this.add.image(200, 400, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
-
-    let stoveButtonBottomLeft = this.add.image(730, 200, "startButton").setScale(.2, .3).setInteractive();
-    let stoveButtonBottomRight = this.add.image(730, 200, "startButton").setScale(.2, .3).setInteractive();
-    let stoveButtonTopLeft = this.add.image(730, 200, "startButton").setScale(.2, .3).setInteractive();
-    let stoveButtonTopRight = this.add.image(730, 200, "startButton").setScale(.2, .3).setInteractive();
+    
+    let stoveButtonTopLeft = this.add.image(670, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    let stoveButtonTopRight = this.add.image(740, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    let stoveButtonBottomLeft = this.add.image(670, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    let stoveButtonBottomRight = this.add.image(740, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
 
     let cookZoneTopLeft = this.add.zone(405, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
     let cookZoneBottomLeft = this.add.zone(406, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
