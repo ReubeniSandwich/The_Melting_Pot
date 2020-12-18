@@ -1,44 +1,39 @@
 import Phaser from "phaser";
-import kitchenSink from "../assets/MeltingPotSinkScreen.png";
-
+// import cabinetBackground from "../PLACENAMEHERE.png";
 
 export default class FridgeScene extends Phaser.Scene {
   constructor() {
     super('FridgeScene');
   }
 
-  init() {
-    // this.scene.setVisible(false);
-  }
-
   preload() {
-    // TODO understand where assets need to be loaded and where they don't need to be
-    // this.load.image("kitchenSink", kitchenSink);
+    // this.load.image("cabinetBackground", cabinetBackground);
   }
 
   create() {
-    const objectArray = [];
 
-    // OBJECTS ++++++++++++++++
-    let pastaIngredient = this.add.image(100, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({
-      draggable: true
-    });
-    let saltShaker = this.add.image(200, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({
-      draggable: true
-    });
+    // ++++ OBJECTS ++++
+    // let cabinetBackground = this.add.image(0, 0, "cabinetBackground").setOrigin(0, 0);
+    let finishButton = this.add.image(200, 300, "startButton").setScale(.4, .3).setInteractive();
 
-    let startButton = this.add.image(200, 300, "startButton").setScale(.4, .3).setInteractive();
+    let saltShaker = this.add.image(100, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pepperShaker = this.add.image(200, 100, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let butter = this.add.image(300, 100, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pastaIngredient = this.add.image(400, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
 
-    pastaIngredient.isSelected = false;
     saltShaker.isSelected = false;
-
+    pepperShaker.isSelected = false;
+    butter.isSelected = false;
+    pastaIngredient.isSelected = false;
     
-    // EVENT LISTENERS ++++++++++++++
+
+    // ++++ EVENT LISTENERS ++++
 
     this.input.on('dragstart', function (pointer, gameObject) {
       gameObject.isSelected = !gameObject.isSelected;
 
       if (gameObject.isSelected === true) {
+
         gameObject.setTint(0xff0000);
         objectArray.push(gameObject.texture.key);
       } else {
@@ -48,35 +43,36 @@ export default class FridgeScene extends Phaser.Scene {
       }
     });
 
-    this.input.on('dragend', function (pointer, gameObject) {
-    });
-
-    startButton.on("pointerdown", function () {
-      console.log("Event: startButton Clicked");
+    const objectArray = [];
+    finishButton.on("pointerdown", function () {
+      console.log("Event: finishButton Clicked");
       sendData('FRIDGE_DATA', objectArray);
       switchToKitchenScene();
     }, this);
   
-    // METHODS / FUNCTIONS ++++++++++++
+
+    // ++++ FUNCTIONS ++++
 
     // send data across files in real time.
     // params: emitterName is the unique name you give to the emitter, you will use the same name with the data receiver
-    // params: data. pass data hwoever you need to in this variable
+    // params: data to be passed
     const sendData = (emitterName, data) => {
       this.events.emit(emitterName, data);
     }
 
-    // switch to KitchenScene and pause / hide this one
+    // switch to KitchenScene and sleep this scene
     // send any data before switching.
-    // sceneName: String
     const switchToKitchenScene = () => {
       this.scene.resume('KitchenScene');
-      this.scene.setVisible(false, 'FridgeScene');
-      this.scene.pause();
+      this.scene.sleep();
     }
 
 
   }
+
+
+
+
 
   update() {
 
