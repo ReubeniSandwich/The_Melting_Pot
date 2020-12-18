@@ -95,6 +95,7 @@ export default class KitchenScene extends Phaser.Scene {
 
     let self = this;
 
+    
     // EVENT LISTENERS ++++++++++++++
 
     stoveButtonBottomLeft.on('pointerdown', function () {
@@ -233,6 +234,7 @@ export default class KitchenScene extends Phaser.Scene {
     }
   }
 
+  
   update() {
 
   }

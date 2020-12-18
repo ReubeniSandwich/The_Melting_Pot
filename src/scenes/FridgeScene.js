@@ -78,10 +78,6 @@ export default class FridgeScene extends Phaser.Scene {
 
   }
 
-
-
-
-
   update() {
 
   }
