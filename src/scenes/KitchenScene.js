@@ -56,20 +56,21 @@ export default class KitchenScene extends Phaser.Scene {
 
     let kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
     let burnerFlame = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
-    let buttonFridge = this.add.image(200, 500, "buttonCabinet").setScale(0.4, 0.4).setInteractive({draggable: false});
-    let buttonSink = this.add.image(700, 500, "buttonSink").setScale(0.4, 0.4).setInteractive({draggable: false});
+    let buttonFridge = this.add.image(90, 80, "buttonCabinet").setScale(0.3, 0.3).setInteractive({draggable: false});
+    let buttonSink = this.add.image(500, 570, "buttonSink").setScale(0.4, 0.4).setInteractive({draggable: false});
     // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
     // let buttonExit = this.add.image(200, 200, "buttonExit").setScale(0.4, 0.4).setInteractive({draggable: true});
     
     let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
-    let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
-    let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
 
-    let butter = this.add.image(200, 200, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
-    let saltShaker = this.add.image(200, 200, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
-    let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
-    let pastaIngredient = this.add.image(200, 400, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
-    let pastaCooked = this.add.image(200, 200, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    let butter = this.add.image(150, 400, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    let pepperShaker = this.add.image(150, 450, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    let saltShaker = this.add.image(260, 400, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    let pastaIngredient = this.add.image(250, 450, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    
+    let pastaCooked = this.add.image(200, 400, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     
     let stoveButtonTopLeft = this.add.image(670, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     let stoveButtonTopRight = this.add.image(740, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
@@ -90,7 +91,6 @@ export default class KitchenScene extends Phaser.Scene {
     this.input.enableDebug(cookZoneBottomRight);
     this.input.enableDebug(cookZoneTopLeft);
     this.input.enableDebug(cookZoneTopRight);
-    this.input.enableDebug(pastaIngredient);
     
     let self = this;
 
@@ -127,9 +127,7 @@ export default class KitchenScene extends Phaser.Scene {
       }
     });
 
-    // possible way to interate through for the fridge scene so that you don't 
-    // have to specify a bunch of hard-coded if statements for making them visible.
-    // console.log(self.children);
+
    
     // resume event listener
     this.scene.get(this).events.on('resume', function () {
@@ -194,10 +192,9 @@ export default class KitchenScene extends Phaser.Scene {
     const replacePotWithWaterPot = () => {
       pot.setVisible(false);
       potWater.setVisible(true);
-      pot
       potWater.x = pot.x;
       potWater.y = pot.y;
-      pot.disableInteractive();
+      pot.removeInteractive();
       self.children.bringToTop(potWater);
     }
 
@@ -252,6 +249,9 @@ export default class KitchenScene extends Phaser.Scene {
 }
 
 
+    // possible way to interate through for the fridge scene so that you don't 
+    // have to specify a bunch of hard-coded if statements for making them visible.
+    // console.log(self.children);
 
 
 // this.input.on('dragend', function (pointer, gameObject, dropped) {

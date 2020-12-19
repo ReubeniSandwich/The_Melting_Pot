@@ -24,19 +24,20 @@ export default class SinkScene extends Phaser.Scene {
   create() {
     let kitchenSink = this.add.image(0, 0, "kitchenSink").setOrigin(0, 0);
     let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
-    let potWater = this.add.image(200, 200, "potWater").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    
+    // replace with boiling pasta water
+    // need colander
+    let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
 
     let buttonBackToStove = this.add.image(400, 500, "buttonBackToStove").setScale(0.4, 0.4).setInteractive({draggable: false});
-
-    let waterFillZone = this.add.zone(400, 200, 120, 120).setRectangleDropZone(120, 120); //zone(x, y, width, height);
+    let waterFillZone = this.add.zone(330, 350, 120, 120).setRectangleDropZone(120, 120); //zone(x, y, width, height);
     this.input.enableDebug(waterFillZone);
 
     let self = this;
     let isPotFilledWithWater = false;
     let isWaterFaucetOn = false;
     let isPotInDropZone = false;
-    let button;
 
     // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
@@ -53,7 +54,6 @@ export default class SinkScene extends Phaser.Scene {
     // event listener while object is being dragged
     // this one enables smooth dragging
     this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-      // console.log("Event: drag");
       gameObject.x = dragX;
       gameObject.y = dragY;
     });
@@ -65,9 +65,13 @@ export default class SinkScene extends Phaser.Scene {
       console.log(gameObject.texture.key);
       if (gameObject.texture.key === "pot") {
         isPotInDropZone = true;
+        
         gameObject.x = dropZone.x
         gameObject.y = dropZone.y;
         fillPotWithWater();
+        if (isPotFilledWithWater === true) {
+        sendData('SINK_DATA', isPotFilledWithWater);
+        }
       }
 
     }, this);
@@ -78,17 +82,10 @@ export default class SinkScene extends Phaser.Scene {
       isPotInDropZone = false;
     });
 
-    let dataSent = false;
+    // Go Back to Kitchen
     buttonBackToStove.on('pointerdown', function (pointer, localX, localY, event) {
-      console.log("Event: return to kitchen clicked");
-
-      if (isPotFilledWithWater === true && dataSent === false) {
-        dataSent = true;
-        sendData('SINK_DATA', isPotFilledWithWater);
-      }
       switchToKitchenScene();
     }, this);
-
 
     const fillPotWithWater = () => {
       console.log("Filled pot with water");
@@ -96,7 +93,6 @@ export default class SinkScene extends Phaser.Scene {
       if (isPotInDropZone === true && isPotFilledWithWater === false) {
         isPotFilledWithWater = true;
         replacePotWithWaterPot();
-        console.log("Diw did we reach here");
       }
     }
 
@@ -107,10 +103,10 @@ export default class SinkScene extends Phaser.Scene {
 
     const replacePotWithWaterPot = () => {
       pot.setVisible(false);
-      pot.disableInteractive();
       potWater.setVisible(true);
       potWater.x = pot.x;
       potWater.y = pot.y;
+      pot.removeInteractive()
       self.children.bringToTop(potWater);
     }
 
