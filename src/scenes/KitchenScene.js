@@ -16,6 +16,8 @@ import cabinetButton from "../assets/Cabinet_Button.png";
 import pastaCooked from "../assets/MeltingPotNoodlesCooked.png";
 import potBoilingWaterPasta from "../assets/boilingnnnodles.png"
 import plate from "../assets/Plate1.png"
+import burnerControlOff from "../assets/burneroff.png"
+import burnerControlOn from "../assets/burneron.png"
 
 
 
@@ -37,6 +39,8 @@ export default class KitchenScene extends Phaser.Scene {
     this.load.image("buttonFridge", buttonFridge);
     this.load.image("buttonSink", buttonSink);
     this.load.image("buttonCabinet", cabinetButton);
+    this.load.image("buttonBurnerOff", burnerControlOff);
+    this.load.image("buttonBurnerOn", burnerControlOn);
 
     this.load.image("plate", plate);
     this.load.image("pot", pot);
@@ -71,9 +75,10 @@ export default class KitchenScene extends Phaser.Scene {
     let saltShaker = this.add.image(260, 400, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let pastaIngredient = this.add.image(250, 450, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     
-    let pastaCooked = this.add.image(200, 400, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    let pastaCooked = this.add.image(200, 300, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     
-    let stoveButtonBottomLeft = this.add.image(670, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    let stoveButtonBottomLeft = this.add.image(660, 150, "buttonBurnerOff").setScale(.35, .35).setOrigin(0, 0).setInteractive();
+    let stoveButtonBottomLeftOverlay = this.add.image(660, 150, "buttonBurnerOn").setScale(.35, .35).setOrigin(0, 0).setVisible(false);
     // let stoveButtonTopLeft = this.add.image(670, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     // let stoveButtonTopRight = this.add.image(740, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     // let stoveButtonBottomRight = this.add.image(740, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
@@ -115,12 +120,14 @@ export default class KitchenScene extends Phaser.Scene {
       console.log("Event: stoveButtonBottomLeft: isActive: " + cookZoneBottomLeft.isActive);
 
       if (cookZoneBottomLeft.isActive === true) {
-        stoveButtonBottomLeft.setTint(0xff0001);
+        // stoveButtonBottomLeft.setTint(0xff0001);
         burnerFlameBottomLeft.setVisible(true);
+        stoveButtonBottomLeftOverlay.setVisible(true);
         boilWater();
         // TODO fire animation
       } else {
-        stoveButtonBottomLeft.clearTint();
+        // stoveButtonBottomLeft.clearTint();
+        stoveButtonBottomLeftOverlay.setVisible(false);
         burnerFlameBottomLeft.setVisible(false);
       }
 
@@ -150,6 +157,7 @@ export default class KitchenScene extends Phaser.Scene {
       console.log("data sucessfully retrieved from: PASTA_IS_DRAINED");
       console.log(data);
       if (data === true) {
+        pastaCooked.setVisible(true);
         // LOGIC HERE FOR DRAINED PASTA
       }
     });
