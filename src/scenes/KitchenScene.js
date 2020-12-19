@@ -11,13 +11,15 @@ import potWater from "../assets/Pot_with_Water.png";
 import pepperShaker from "../assets/MeltingPotPepper.png";
 import butterIngredient from "../assets/MeltingPotButter.png";
 import potWaterNoodles from "../assets/Pot_with_Water_and_Raw_Noods.png";
+import instructionButton from "../assets/fuckinbutton.png";
 import potBoilingWater from "../assets/Pot_with_Boiling_Water.png";
 import cabinetButton from "../assets/Cabinet_Button.png";
 import pastaCooked from "../assets/MeltingPotNoodlesCooked.png";
-import potBoilingWaterPasta from "../assets/boilingnnnodles.png"
-import plate from "../assets/Plate1.png"
-import burnerControlOff from "../assets/burneroff.png"
-import burnerControlOn from "../assets/burneron.png"
+import potBoilingWaterPasta from "../assets/boilingnnnodles.png";
+import plate from "../assets/Plate1.png";
+import burnerControlOff from "../assets/burneroff.png";
+import burnerControlOn from "../assets/burneron.png";
+import instructions from "../assets/instructions.png";
 
 
 
@@ -55,6 +57,8 @@ export default class KitchenScene extends Phaser.Scene {
     this.load.image("pastaIngredient", pastaIngredientImport);
 
     this.load.image("pastaCooked", pastaCooked);
+    this.load.image("instructions", instructions);
+    this.load.image("instructionButton", instructionButton);
   }
 
   create() {
@@ -63,6 +67,9 @@ export default class KitchenScene extends Phaser.Scene {
     let kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
     let buttonFridge = this.add.image(90, 80, "buttonCabinet").setScale(0.3, 0.3).setInteractive({draggable: false});
     let buttonSink = this.add.image(500, 570, "buttonSink").setScale(0.4, 0.4).setInteractive({draggable: false});
+    let instructions = this.add.image(250, 20, "instructions").setOrigin(0, 0).setVisible(false);
+    let instructionButton = this.add.image(650, 40, "instructionButton").setOrigin(0, 0).setScale(0.4, 0.4).setInteractive({draggable: false});;
+    
     
     let plate = this.add.image(200, 200, "plate").setScale(0.5, 0.5).setInteractive({draggable: true}).setVisible(false);
     let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
@@ -112,6 +119,8 @@ export default class KitchenScene extends Phaser.Scene {
     let isWaterBoiling = false;
     let isWaterBoilingPasta = false;
 
+    let instructionActive = false;
+
     
     // EVENT LISTENERS ++++++++++++++
 
@@ -132,6 +141,17 @@ export default class KitchenScene extends Phaser.Scene {
       }
 
       
+    }, this);
+
+    instructionButton.on('pointerdown', function () {
+      instructionActive = !instructionActive;
+
+      if (instructionActive === true) {
+        instructions.setVisible(true);
+      } else {
+        instructions.setVisible(false);
+      }
+
     }, this);
 
 
