@@ -39,6 +39,7 @@ export default class SinkScene extends Phaser.Scene {
     let isWaterFaucetOn = false;
     let isPotInDropZone = false;
 
+
     // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
       gameObject.setTint(0xff0000);
@@ -86,6 +87,8 @@ export default class SinkScene extends Phaser.Scene {
     buttonBackToStove.on('pointerdown', function (pointer, localX, localY, event) {
       switchToKitchenScene();
     }, this);
+    
+    
 
     const fillPotWithWater = () => {
       console.log("Filled pot with water");

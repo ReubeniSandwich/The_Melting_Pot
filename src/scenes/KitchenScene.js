@@ -263,8 +263,8 @@ export default class KitchenScene extends Phaser.Scene {
     const boilWaterPasta = () => {
       isWaterBoilingPasta = true;
       addPastaToBoilingWater();
+      sendData("KITCHEN_TO_SINK_DATA", true);
     }
-
 
 
     // This is for the cabinet. When items are selected and that array is passed back, this function will make those items visible.
@@ -307,6 +307,13 @@ export default class KitchenScene extends Phaser.Scene {
         this.scene.launch('SinkScene');
         this.scene.pause();
       }
+    }
+
+    // send data across files in real time.
+    // params: emitterName is the unique name you give to the emitter, you will use the same name with the data receiver
+    // params: data to be passed
+    const sendData = (emitterName, data) => {
+      this.events.emit(emitterName, data);
     }
 
   }
