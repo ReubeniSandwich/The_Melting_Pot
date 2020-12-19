@@ -50,13 +50,6 @@ export default class FridgeScene extends Phaser.Scene {
       switchToKitchenScene();
     }, this);
 
-    this.scene.get('KitchenScene').events.on('KITCHEN_TO_SINK_DATA', function (data) {
-      console.log("data sucessfully retrieved from: KITCHEN_TO_SINK_DATA");
-      if (data === true && data != null) {
-        console.log(data);
-        // TODO logic
-      }
-    });
 
     // ++++ FUNCTIONS ++++
 

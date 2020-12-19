@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import logoImg from "../assets/logo.png";
-import startButton from "../assets/Done_Button.png";
+import startButton from "../assets/Start_button.png";
 import blurredStove from "../assets/MeltingPotStove_Blur.png";
 
 export default class LoadingScene extends Phaser.Scene {
@@ -21,7 +21,7 @@ export default class LoadingScene extends Phaser.Scene {
     create() {
         const background = this.add.image(0, 0, "blurredKitchen").setOrigin(0, 0);
         const logo = this.add.image(400, 200, "logo").setScale(.3);
-        let startButton = this.add.image(400, 500, "startButton").setScale(.4, .3).setInteractive();
+        let startButton = this.add.image(400, 500, "startButton").setScale(.8, .8).setInteractive();
         // this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor("#FFFFFF");
 
         startButton.once("pointerdown", function () {

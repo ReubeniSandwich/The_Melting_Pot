@@ -69,30 +69,30 @@ export default class KitchenScene extends Phaser.Scene {
     
     let pastaCooked = this.add.image(200, 400, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     
-    let stoveButtonTopLeft = this.add.image(670, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
-    let stoveButtonTopRight = this.add.image(740, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     let stoveButtonBottomLeft = this.add.image(670, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
-    let stoveButtonBottomRight = this.add.image(740, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    // let stoveButtonTopLeft = this.add.image(670, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    // let stoveButtonTopRight = this.add.image(740, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
+    // let stoveButtonBottomRight = this.add.image(740, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     
-    let cookZoneTopLeft = this.add.zone(405, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
     let cookZoneBottomLeft = this.add.zone(406, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
-    let cookZoneTopRight = this.add.zone(570, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
-    let cookZoneBottomRight = this.add.zone(572, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    // let cookZoneTopLeft = this.add.zone(405, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    // let cookZoneTopRight = this.add.zone(570, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
+    // let cookZoneBottomRight = this.add.zone(572, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
     
-    // let burnerFlameTopLeft = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
     let burnerFlameBottomLeft = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
+    // let burnerFlameTopLeft = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
     // let burnerFlameTopRight = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
     // let burnerFlameBottomRight = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
 
-    cookZoneTopLeft.isActive = false;
     cookZoneBottomLeft.isActive = false;
-    cookZoneTopRight.isActive = false;
-    cookZoneBottomRight.isActive = false;
+    // cookZoneTopLeft.isActive = false;
+    // cookZoneTopRight.isActive = false;
+    // cookZoneBottomRight.isActive = false;
 
     this.input.enableDebug(cookZoneBottomLeft);
-    this.input.enableDebug(cookZoneBottomRight);
-    this.input.enableDebug(cookZoneTopLeft);
-    this.input.enableDebug(cookZoneTopRight);
+    // this.input.enableDebug(cookZoneBottomRight);
+    // this.input.enableDebug(cookZoneTopLeft);
+    // this.input.enableDebug(cookZoneTopRight);
     
     let self = this;
     let inDropZone = false;
@@ -192,9 +192,11 @@ export default class KitchenScene extends Phaser.Scene {
       gameObject.x = dropZone.x
       gameObject.y = dropZone.y;
 
-      if (gameObject.texture.key === "pot") {
+      if (gameObject.texture.key === "pot" || gameObject.texture.key === "potBoilingWater") {
         inDropZone = true;
       }
+
+
       
       if (gameObject.texture.key === "potWater") {
         inDropZone = true;
@@ -202,8 +204,10 @@ export default class KitchenScene extends Phaser.Scene {
       }
 
       if (gameObject.texture.key === "pastaIngredient") {
-        inDropZone = true;
-        boilWaterPasta();
+        // inDropZone = true;
+        if (isWaterBoiling === true && inDropZone === true) {
+          boilWaterPasta();
+        }
       }
     });
 
@@ -239,8 +243,7 @@ export default class KitchenScene extends Phaser.Scene {
 
     const addPastaToBoilingWater = () => {
       potBoilingWater.setVisible(false);
-      pastaIngredient.setVisible(false);
-      pastaIngredient.removeInteractive();
+      pastaIngredient.destroy();
       potBoilingWaterPasta.setVisible(true);
       potBoilingWaterPasta.x = potWater.x;
       potBoilingWaterPasta.y = potWater.y;
@@ -263,7 +266,7 @@ export default class KitchenScene extends Phaser.Scene {
     const boilWaterPasta = () => {
       isWaterBoilingPasta = true;
       addPastaToBoilingWater();
-      sendData("KITCHEN_TO_SINK_DATA", true);
+      sendData("KITCHEN_TO_SINK_DATA", 1);
     }
 
 

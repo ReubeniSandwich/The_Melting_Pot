@@ -22,6 +22,8 @@ export default class SinkScene extends Phaser.Scene {
   }
 
   create() {
+
+    // ++++ OBJECTS AND VARIABLES ++++
     let kitchenSink = this.add.image(0, 0, "kitchenSink").setOrigin(0, 0);
     let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
     let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
@@ -31,6 +33,7 @@ export default class SinkScene extends Phaser.Scene {
     let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
 
     let buttonBackToStove = this.add.image(400, 500, "buttonBackToStove").setScale(0.4, 0.4).setInteractive({draggable: false});
+    
     let waterFillZone = this.add.zone(330, 350, 120, 120).setRectangleDropZone(120, 120); //zone(x, y, width, height);
     this.input.enableDebug(waterFillZone);
 
@@ -39,6 +42,8 @@ export default class SinkScene extends Phaser.Scene {
     let isWaterFaucetOn = false;
     let isPotInDropZone = false;
 
+
+    // ++++ EVENT LISTENERS ++++ 
 
     // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
@@ -59,14 +64,11 @@ export default class SinkScene extends Phaser.Scene {
       gameObject.y = dragY;
     });
 
-
+    // Event Listener: Drop
     this.input.on('drop', function (pointer, gameObject, dropZone) {
-      console.log("Event: drop");
 
-      console.log(gameObject.texture.key);
       if (gameObject.texture.key === "pot") {
         isPotInDropZone = true;
-        
         gameObject.x = dropZone.x
         gameObject.y = dropZone.y;
         fillPotWithWater();
@@ -76,6 +78,15 @@ export default class SinkScene extends Phaser.Scene {
       }
 
     }, this);
+
+    // listening for data being sent from kitchen
+    this.scene.get('KitchenScene').events.on('KITCHEN_TO_SINK_DATA', function (data) {
+      console.log("data sucessfully retrieved from: KITCHEN_TO_SINK_DATA");
+      if (data === 1 && data != null) {
+        console.log(data);
+        // TODO logic for having boiling water to be dropped into colander
+      }
+    });
 
     // event listener if the object leaves a area while being dragged
     pot.on('dragleave', function (pointer, gameObject, dropZone) {
@@ -88,7 +99,7 @@ export default class SinkScene extends Phaser.Scene {
       switchToKitchenScene();
     }, this);
     
-    
+    // ++++ FUNCTIONS ++++
 
     const fillPotWithWater = () => {
       console.log("Filled pot with water");
