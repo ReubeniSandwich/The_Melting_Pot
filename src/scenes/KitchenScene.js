@@ -35,8 +35,6 @@ export default class KitchenScene extends Phaser.Scene {
     this.load.image("buttonFridge", buttonFridge);
     this.load.image("buttonSink", buttonSink);
     this.load.image("buttonCabinet", cabinetButton);
-    // this.load.image("buttonDone", "assets/Done_Button.png");
-    // this.load.image("buttonExit", "assets/Exit_Button.png");
 
     this.load.image("pot", pot);
     this.load.image("potWater", potWater);
@@ -55,16 +53,15 @@ export default class KitchenScene extends Phaser.Scene {
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     let kitchenTop = this.add.image(0, 0, "kitchenTop").setOrigin(0, 0);
-    let burnerFlame = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
     let buttonFridge = this.add.image(90, 80, "buttonCabinet").setScale(0.3, 0.3).setInteractive({draggable: false});
     let buttonSink = this.add.image(500, 570, "buttonSink").setScale(0.4, 0.4).setInteractive({draggable: false});
-    // let buttonDone = this.add.image(200, 200, "buttonDone").setScale(0.4, 0.4).setInteractive({draggable: true});
-    // let buttonExit = this.add.image(200, 200, "buttonExit").setScale(0.4, 0.4).setInteractive({draggable: true});
     
     let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
     let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
     let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
-
+    // TOODO replace with proper image
+    let potBoilingWaterPasta = this.add.image(200, 200, "pastaCooked").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    
     let butter = this.add.image(150, 400, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let pepperShaker = this.add.image(150, 450, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let saltShaker = this.add.image(260, 400, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
@@ -76,12 +73,17 @@ export default class KitchenScene extends Phaser.Scene {
     let stoveButtonTopRight = this.add.image(740, 150, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     let stoveButtonBottomLeft = this.add.image(670, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
     let stoveButtonBottomRight = this.add.image(740, 210, "startButton").setScale(.2, .3).setOrigin(0, 0).setInteractive();
-
+    
     let cookZoneTopLeft = this.add.zone(405, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
     let cookZoneBottomLeft = this.add.zone(406, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
     let cookZoneTopRight = this.add.zone(570, 228, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
     let cookZoneBottomRight = this.add.zone(572, 430, 120, 130).setRectangleDropZone(120, 130); //zone(x, y, width, height);
-  
+    
+    // let burnerFlameTopLeft = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
+    let burnerFlameBottomLeft = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
+    // let burnerFlameTopRight = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
+    // let burnerFlameBottomRight = this.add.image(400, 428, "burnerFlame").setScale(0.4, 0.4).setVisible(false);
+
     cookZoneTopLeft.isActive = false;
     cookZoneBottomLeft.isActive = false;
     cookZoneTopRight.isActive = false;
@@ -93,6 +95,13 @@ export default class KitchenScene extends Phaser.Scene {
     this.input.enableDebug(cookZoneTopRight);
     
     let self = this;
+    let inDropZone = false;
+
+    let isWaterPotAvailable = false;
+    let isWaterBoilingPotAvailable = false;
+
+    let isWaterBoiling = false;
+    let isWaterBoilingPasta = false;
 
     
     // EVENT LISTENERS ++++++++++++++
@@ -103,12 +112,15 @@ export default class KitchenScene extends Phaser.Scene {
 
       if (cookZoneBottomLeft.isActive === true) {
         stoveButtonBottomLeft.setTint(0xff0001);
-        burnerFlame.setVisible(true);
+        burnerFlameBottomLeft.setVisible(true);
+        boilWater();
         // TODO fire animation
       } else {
         stoveButtonBottomLeft.clearTint();
-        burnerFlame.setVisible(false);
+        burnerFlameBottomLeft.setVisible(false);
       }
+
+      
     }, this);
 
 
@@ -132,6 +144,7 @@ export default class KitchenScene extends Phaser.Scene {
     // resume event listener
     this.scene.get(this).events.on('resume', function () {
       console.log("Event: onResume");
+      boilWater();
     });
 
     // When the fridge is clicked, switch to that scene.
@@ -171,12 +184,27 @@ export default class KitchenScene extends Phaser.Scene {
     // event listener if the object leaves a area while being dragged
     this.input.on('dragleave', function (pointer, gameObject, dropZone) {
       // console.log("Event: dragleave");
+      inDropZone = false;
     });
 
     //event listener if item is dropped into dropzone
     this.input.on('drop', function (pointer, gameObject, dropZone) {
       gameObject.x = dropZone.x
       gameObject.y = dropZone.y;
+
+      if (gameObject.texture.key === "pot") {
+        inDropZone = true;
+      }
+      
+      if (gameObject.texture.key === "potWater") {
+        inDropZone = true;
+        boilWater();
+      }
+
+      if (gameObject.texture.key === "pastaIngredient") {
+        inDropZone = true;
+        boilWaterPasta();
+      }
     });
 
 
@@ -196,7 +224,48 @@ export default class KitchenScene extends Phaser.Scene {
       potWater.y = pot.y;
       pot.removeInteractive();
       self.children.bringToTop(potWater);
+      isWaterPotAvailable = true;
     }
+
+    const replaceWaterPotWithBoilingWater = () => {
+      potWater.setVisible(false);
+      potBoilingWater.setVisible(true);
+      potBoilingWater.x = potWater.x;
+      potBoilingWater.y = potWater.y;
+      potWater.removeInteractive();
+      self.children.bringToTop(potBoilingWater);
+      isWaterBoilingPotAvailable = true;
+    }
+
+    const addPastaToBoilingWater = () => {
+      potBoilingWater.setVisible(false);
+      pastaIngredient.setVisible(false);
+      pastaIngredient.removeInteractive();
+      potBoilingWaterPasta.setVisible(true);
+      potBoilingWaterPasta.x = potWater.x;
+      potBoilingWaterPasta.y = potWater.y;
+      potBoilingWater.removeInteractive();
+      self.children.bringToTop(potBoilingWaterPasta);
+    }
+
+    const boilWater = () => {
+      console.log("boilWater");
+      if (cookZoneBottomLeft.isActive === true && isWaterBoiling === false && isWaterPotAvailable === true && inDropZone === true) {
+      
+        isWaterBoiling = true;
+        replaceWaterPotWithBoilingWater();
+      }
+      else {
+        console.log("cannot boil water");
+      }
+    }
+
+    const boilWaterPasta = () => {
+      isWaterBoilingPasta = true;
+      addPastaToBoilingWater();
+    }
+
+
 
     // This is for the cabinet. When items are selected and that array is passed back, this function will make those items visible.
     // currently those values are hardcoded, but using self.children is a good idea to use to overcome that.
