@@ -2,8 +2,11 @@ import Phaser from "phaser";
 import kitchenSink from "../assets/MeltingPotSinkScreen.png";
 import pot from "../assets/Pot.png";
 import potWater from "../assets/Pot_with_Water.png";
-import potBoilingWater from "../assets/Pot_with_Boiling_Water.png"
+import potBoilingWater from "../assets/Pot_with_Boiling_Water.png";
 import BackToStoveTopButton from "../assets/BackToStoveTop_Button.png";
+import faucetOn from "../assets/faucet_with_water.png";
+import faucetOff from "../assets/faucet_no_water.png";
+import waterButton from "../assets/get_water_button.png"
 
 export default class SinkScene extends Phaser.Scene {
   constructor() {
@@ -19,20 +22,26 @@ export default class SinkScene extends Phaser.Scene {
     this.load.image("potWater", potWater);
     this.load.image("potBoilingWater", potBoilingWater);
     this.load.image("buttonBackToStove", BackToStoveTopButton);
+    this.load.image("faucetOn", faucetOn);
+    this.load.image("faucetOff", faucetOff);
+    this.load.image('waterButton', waterButton);
   }
 
   create() {
 
     // ++++ OBJECTS AND VARIABLES ++++
     let kitchenSink = this.add.image(0, 0, "kitchenSink").setOrigin(0, 0);
-    let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
+    let pot = this.add.image(660, 240, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
     let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
-    
+    let faucetOn = this.add.image(280, 80, "faucetOn").setOrigin(0,0).setVisible(false);
+    let faucetOff = this.add.image(280, 80, "faucetOff").setOrigin(0,0);
     // replace with boiling pasta water
     // need colander
     let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
 
-    let buttonBackToStove = this.add.image(400, 500, "buttonBackToStove").setScale(0.4, 0.4).setInteractive({draggable: false});
+    let buttonBackToStove = this.add.image(400, 565, "buttonBackToStove").setScale(0.4, 0.4).setInteractive({draggable: false});
+    let buttonWater = this.add.image(400, 35, "waterButton").setScale(0.8, 0.8).setInteractive({draggable: false});
+
     
     let waterFillZone = this.add.zone(330, 350, 120, 120).setRectangleDropZone(120, 120); //zone(x, y, width, height);
     this.input.enableDebug(waterFillZone);
@@ -45,10 +54,16 @@ export default class SinkScene extends Phaser.Scene {
 
     // ++++ EVENT LISTENERS ++++ 
 
+    buttonWater.on("pointerdown", function () {
+      toggleWaterFaucet();
+    }, this);
+
     // event listener when dragging begins
     this.input.on('dragstart', function (pointer, gameObject) {
       gameObject.setTint(0xff0000);
       self.children.bringToTop(gameObject);
+      self.children.bringToTop(faucetOff);
+      
       //TODO logic to keep the fauce image at the top
     });
 
@@ -72,9 +87,6 @@ export default class SinkScene extends Phaser.Scene {
         gameObject.x = dropZone.x
         gameObject.y = dropZone.y;
         fillPotWithWater();
-        if (isPotFilledWithWater === true) {
-        sendData('SINK_DATA', isPotFilledWithWater);
-        }
       }
 
     }, this);
@@ -100,18 +112,33 @@ export default class SinkScene extends Phaser.Scene {
     }, this);
     
     // ++++ FUNCTIONS ++++
+    console.log(isWaterFaucetOn);
 
     const fillPotWithWater = () => {
       console.log("Filled pot with water");
-      // if (isFaucetOn === true && isPotInDropZone === true) {
-      if (isPotInDropZone === true && isPotFilledWithWater === false) {
+      console.log(isPotInDropZone);
+      console.log(isPotFilledWithWater);
+      console.log(isWaterFaucetOn);
+      if (isPotInDropZone === true && isPotFilledWithWater === false && isWaterFaucetOn === true) {
         isPotFilledWithWater = true;
         replacePotWithWaterPot();
+        if (isPotFilledWithWater === true) {
+          sendData('SINK_DATA', isPotFilledWithWater);
+          }
       }
     }
 
     const toggleWaterFaucet = () => {
       isWaterFaucetOn = !isWaterFaucetOn;
+
+      if (isWaterFaucetOn === true) {
+        fillPotWithWater();
+        faucetOff.setVisible(false)
+        faucetOn.setVisible(true);
+      } else {
+        faucetOff.setVisible(true)
+        faucetOn.setVisible(false);
+      }
       // waterAnimation.setVisible(isWaterFaucetOn);
     }
 

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
-// import cabinetBackground from "../PLACENAMEHERE.png";
+import cabinetBackground from "../assets/cabinetinside.png";
+import doneButton from "../assets/Done_Button.png";
 
 export default class FridgeScene extends Phaser.Scene {
   constructor() {
@@ -7,19 +8,20 @@ export default class FridgeScene extends Phaser.Scene {
   }
 
   preload() {
-    // this.load.image("cabinetBackground", cabinetBackground);
+    this.load.image("cabinetBackground", cabinetBackground);
+    this.load.image("doneButton", doneButton);
   }
 
   create() {
 
     // ++++ OBJECTS ++++
-    // let cabinetBackground = this.add.image(0, 0, "cabinetBackground").setOrigin(0, 0);
-    let finishButton = this.add.image(200, 300, "startButton").setScale(.4, .3).setInteractive();
+    let cabinetBackground = this.add.image(0, 0, "cabinetBackground").setOrigin(0, 0);
+    let finishButton = this.add.image(400, 510, "doneButton").setInteractive();
 
     let saltShaker = this.add.image(100, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let pepperShaker = this.add.image(200, 100, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let butter = this.add.image(300, 100, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let pastaIngredient = this.add.image(400, 100, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let butter = this.add.image(300, 300, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pastaIngredient = this.add.image(400, 400, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
 
     saltShaker.isSelected = false;
     pepperShaker.isSelected = false;

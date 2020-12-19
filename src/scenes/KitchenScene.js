@@ -14,6 +14,7 @@ import potWaterNoodles from "../assets/Pot_with_Water_and_Raw_Noods.png";
 import potBoilingWater from "../assets/Pot_with_Boiling_Water.png";
 import cabinetButton from "../assets/Cabinet_Button.png";
 import pastaCooked from "../assets/MeltingPotNoodlesCooked.png";
+import potBoilingWaterPasta from "../assets/boilingnnnodles.png"
 
 
 
@@ -40,6 +41,7 @@ export default class KitchenScene extends Phaser.Scene {
     this.load.image("potWater", potWater);
     this.load.image("potWaterNoodles", potWaterNoodles);
     this.load.image("potBoilingWater", potBoilingWater);
+    this.load.image("potBoilingWaterPasta", potBoilingWaterPasta);
 
     this.load.image("saltShaker", saltShakerImage);
     this.load.image("pepperShaker", pepperShaker);
@@ -60,7 +62,7 @@ export default class KitchenScene extends Phaser.Scene {
     let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
     let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
     // TOODO replace with proper image
-    let potBoilingWaterPasta = this.add.image(200, 200, "pastaCooked").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    let potBoilingWaterPasta = this.add.image(200, 200, "potBoilingWaterPasta").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
     
     let butter = this.add.image(150, 400, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let pepperShaker = this.add.image(150, 450, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
