@@ -75,7 +75,7 @@ export default class KitchenScene extends Phaser.Scene {
     let saltShaker = this.add.image(260, 400, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     let pastaIngredient = this.add.image(250, 450, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
     
-    let pastaCooked = this.add.image(200, 300, "pastaCooked").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
+    let pastaCooked = this.add.image(200, 300, "pastaCooked").setScale(0.5, 0.5).setInteractive({draggable: true}).setVisible(false);
     
     let stoveButtonBottomLeft = this.add.image(660, 150, "buttonBurnerOff").setScale(.35, .35).setOrigin(0, 0).setInteractive();
     let stoveButtonBottomLeftOverlay = this.add.image(660, 150, "buttonBurnerOn").setScale(.35, .35).setOrigin(0, 0).setVisible(false);
@@ -150,14 +150,14 @@ export default class KitchenScene extends Phaser.Scene {
       }
     });
 
-    // HHHHEEE
-    //HAWEWHRUIHAUWHAUHWDu
+
     // HEAAIWUBHIAUDH+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     this.scene.get('SinkScene').events.on('PASTA_IS_DRAINED', function (data) {
       console.log("data sucessfully retrieved from: PASTA_IS_DRAINED");
       console.log(data);
       if (data === true) {
         pastaCooked.setVisible(true);
+        potBoilingWaterPasta.destroy();
         // LOGIC HERE FOR DRAINED PASTA
       }
     });
