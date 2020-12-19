@@ -18,10 +18,12 @@ export default class FridgeScene extends Phaser.Scene {
     let cabinetBackground = this.add.image(0, 0, "cabinetBackground").setOrigin(0, 0);
     let finishButton = this.add.image(400, 510, "doneButton").setInteractive();
 
-    let saltShaker = this.add.image(100, 100, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let pepperShaker = this.add.image(200, 200, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let butter = this.add.image(300, 300, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
-    let pastaIngredient = this.add.image(400, 400, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let saltShaker = this.add.image(100, 70, "saltShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pepperShaker = this.add.image(200, 170, "pepperShaker").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let butter = this.add.image(300, 280, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let pastaIngredient = this.add.image(400, 350, "pastaIngredient").setScale(0.4, 0.4).setInteractive({draggable: true});
+    let plate = this.add.image(500, 160, "plate").setScale(0.5, 0.5).setInteractive({draggable: true});
+
 
     saltShaker.isSelected = false;
     pepperShaker.isSelected = false;

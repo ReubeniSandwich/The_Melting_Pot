@@ -30,19 +30,20 @@ export default class SinkScene extends Phaser.Scene {
   create() {
 
     // ++++ OBJECTS AND VARIABLES ++++
+
     let kitchenSink = this.add.image(0, 0, "kitchenSink").setOrigin(0, 0);
     let pot = this.add.image(660, 240, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
-    let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    let potWater = this.add.image(10, 10, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    let potBoilingWater = this.add.image(660, 240, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    let potBoilingWaterPasta = this.add.image(660, 240, "potBoilingWaterPasta").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
+    // need colander
+
     let faucetOn = this.add.image(280, 80, "faucetOn").setOrigin(0,0).setVisible(false);
     let faucetOff = this.add.image(280, 80, "faucetOff").setOrigin(0,0);
-    // replace with boiling pasta water
-    // need colander
-    let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
 
     let buttonBackToStove = this.add.image(400, 565, "buttonBackToStove").setScale(0.4, 0.4).setInteractive({draggable: false});
     let buttonWater = this.add.image(400, 35, "waterButton").setScale(0.8, 0.8).setInteractive({draggable: false});
 
-    
     let waterFillZone = this.add.zone(330, 350, 120, 120).setRectangleDropZone(120, 120); //zone(x, y, width, height);
     this.input.enableDebug(waterFillZone);
 
@@ -88,6 +89,13 @@ export default class SinkScene extends Phaser.Scene {
         gameObject.y = dropZone.y;
         fillPotWithWater();
       }
+      if (gameObject.texture.key === "potBoilingWaterPasta") {
+        isPotInDropZone = true;
+        gameObject.x = dropZone.x
+        gameObject.y = dropZone.y;
+
+      }
+
 
     }, this);
 
@@ -95,8 +103,17 @@ export default class SinkScene extends Phaser.Scene {
     this.scene.get('KitchenScene').events.on('KITCHEN_TO_SINK_DATA', function (data) {
       console.log("data sucessfully retrieved from: KITCHEN_TO_SINK_DATA");
       if (data === 1 && data != null) {
-        console.log(data);
-        // TODO logic for having boiling water to be dropped into colander
+
+        potBoilingWaterPasta.setVisible(true);
+        potBoilingWater.destroy();
+      }
+    });
+
+    this.scene.get('KitchenScene').events.on('DELETE_WATER_POT_SINK', function (data) {
+      console.log("data sucessfully retrieved from: DELETE_WATER_POT_SINK");
+      if (data === true && data != null) {
+        potBoilingWater.setVisible(true);
+        potWater.destroy();
       }
     });
 
@@ -112,14 +129,11 @@ export default class SinkScene extends Phaser.Scene {
     }, this);
     
     // ++++ FUNCTIONS ++++
-    console.log(isWaterFaucetOn);
 
     const fillPotWithWater = () => {
-      console.log("Filled pot with water");
-      console.log(isPotInDropZone);
-      console.log(isPotFilledWithWater);
-      console.log(isWaterFaucetOn);
+      
       if (isPotInDropZone === true && isPotFilledWithWater === false && isWaterFaucetOn === true) {
+        console.log("Filled pot with water");
         isPotFilledWithWater = true;
         replacePotWithWaterPot();
         if (isPotFilledWithWater === true) {
@@ -149,6 +163,12 @@ export default class SinkScene extends Phaser.Scene {
       potWater.y = pot.y;
       pot.removeInteractive()
       self.children.bringToTop(potWater);
+    }
+
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    const drainPasta = () => {
+      // TODO
+      sendData('PASTA_IS_DRAINED', true);
     }
 
 

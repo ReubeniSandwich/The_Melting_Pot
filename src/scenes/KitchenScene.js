@@ -15,6 +15,7 @@ import potBoilingWater from "../assets/Pot_with_Boiling_Water.png";
 import cabinetButton from "../assets/Cabinet_Button.png";
 import pastaCooked from "../assets/MeltingPotNoodlesCooked.png";
 import potBoilingWaterPasta from "../assets/boilingnnnodles.png"
+import plate from "../assets/Plate1.png"
 
 
 
@@ -37,6 +38,7 @@ export default class KitchenScene extends Phaser.Scene {
     this.load.image("buttonSink", buttonSink);
     this.load.image("buttonCabinet", cabinetButton);
 
+    this.load.image("plate", plate);
     this.load.image("pot", pot);
     this.load.image("potWater", potWater);
     this.load.image("potWaterNoodles", potWaterNoodles);
@@ -58,10 +60,10 @@ export default class KitchenScene extends Phaser.Scene {
     let buttonFridge = this.add.image(90, 80, "buttonCabinet").setScale(0.3, 0.3).setInteractive({draggable: false});
     let buttonSink = this.add.image(500, 570, "buttonSink").setScale(0.4, 0.4).setInteractive({draggable: false});
     
+    let plate = this.add.image(200, 200, "plate").setScale(0.5, 0.5).setInteractive({draggable: true}).setVisible(false);
     let pot = this.add.image(200, 200, "pot").setScale(0.8, 0.8).setInteractive({draggable: true});
     let potWater = this.add.image(200, 200, "potWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
     let potBoilingWater = this.add.image(200, 200, "potBoilingWater").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
-    // TOODO replace with proper image
     let potBoilingWaterPasta = this.add.image(200, 200, "potBoilingWaterPasta").setScale(0.8, 0.8).setInteractive({draggable: true}).setVisible(false);
     
     let butter = this.add.image(150, 400, "butterIngredient").setScale(0.4, 0.4).setInteractive({draggable: true}).setVisible(false);
@@ -138,6 +140,17 @@ export default class KitchenScene extends Phaser.Scene {
       console.log("data sucessfully retrieved from: SINK_DATA");
       if (data === true && data != null) {
         replacePotWithWaterPot();
+      }
+    });
+
+    // HHHHEEE
+    //HAWEWHRUIHAUWHAUHWDu
+    // HEAAIWUBHIAUDH+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    this.scene.get('SinkScene').events.on('PASTA_IS_DRAINED', function (data) {
+      console.log("data sucessfully retrieved from: PASTA_IS_DRAINED");
+      console.log(data);
+      if (data === true) {
+        // LOGIC HERE FOR DRAINED PASTA
       }
     });
 
@@ -254,10 +267,11 @@ export default class KitchenScene extends Phaser.Scene {
     }
 
     const boilWater = () => {
-      console.log("boilWater");
+
       if (cookZoneBottomLeft.isActive === true && isWaterBoiling === false && isWaterPotAvailable === true && inDropZone === true) {
-      
+        console.log("boilWater");
         isWaterBoiling = true;
+        sendData("DELETE_WATER_POT_SINK", true);
         replaceWaterPotWithBoilingWater();
       }
       else {
@@ -288,6 +302,9 @@ export default class KitchenScene extends Phaser.Scene {
           }
           else if (pastaIngredient.texture.key === objectKey) {
             pastaIngredient.setVisible(true);
+          }
+          else if (plate.texture.key === objectKey) {
+            plate.setVisible(true);
           }
         });
       }
